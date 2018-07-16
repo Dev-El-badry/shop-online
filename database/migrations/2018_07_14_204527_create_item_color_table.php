@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ItemSize extends Migration
+class CreateItemColorTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class ItemSize extends Migration
      */
     public function up()
     {
-        Schema::create('item_size', function (Blueprint $table) {
+        Schema::create('item_color', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('size');
+            $table->string('color')->nullable();
             $table->unsignedInteger('item_id');
 
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
@@ -29,6 +29,6 @@ class ItemSize extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_size');
+        Schema::dropIfExists('item_color');
     }
 }

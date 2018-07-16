@@ -15,13 +15,12 @@ class CreateWebpagesTable extends Migration
     {
         Schema::create('webpages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('page_title');
-            $table->string('page_url');
-            $table->string('page_keywords')->nullable();
+            $table->string('page_title', 500);
+            $table->string('page_url')->unique();
+            $table->string('page_keywords', 300)->nullable();
             $table->text('page_description')->nullable();
             $table->string('headline')->nullable();
-            $table->text('page_content');
-            $table->text('page_content_ar');
+            $table->longText('page_content');
         });
     }
 

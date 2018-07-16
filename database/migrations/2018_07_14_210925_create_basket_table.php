@@ -21,7 +21,7 @@ class CreateBasketTable extends Migration
             $table->string('item_color')->nullable();
             $table->string('item_size')->nullable();
             $table->unsignedInteger('shopper_id');
-            $table->string('ip_address', 40);
+            $table->ipAddress('ip_address', 40);
             $table->timestamps();
 
             $table->foreign('shopper_id')->references('id')->on('users')->onDelete('cascade');

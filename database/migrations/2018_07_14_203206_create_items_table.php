@@ -15,12 +15,9 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('item_title');
-            $table->string('item_title_ar');
+            $table->string('item_title', 500);
             $table->string('item_url')->unique();
-            $table->string('item_url_ar')->unique();
-            $table->text('item_description')->nullable();
-            $table->text('item_description_ar')->nullable();
+            $table->longText('item_description')->nullable();
             $table->unsignedDecimal('item_price', 7, 2);
             $table->unsignedDecimal('was_price', 7, 2);
             $table->string('big_img')->nullable();

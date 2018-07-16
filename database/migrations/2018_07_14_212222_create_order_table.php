@@ -18,7 +18,7 @@ class CreateOrderTable extends Migration
             $table->string('order_ref', 10)->unique;
             $table->string('payment_type', 10);
             $table->unsignedInteger('payment_id');
-            $table->string('ip_address', 40);
+            $table->ipAddress('ip_address', 40);
             $table->tinyInteger('opened');
             $table->unsignedInteger('order_status_id')->default(0);
             $table->unsignedInteger('shopper_id');
