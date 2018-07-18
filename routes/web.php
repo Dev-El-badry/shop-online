@@ -17,4 +17,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::prefix(LaravelLocalization::setLocale())->group(function() {
+
+	Route::prefix('manage')->group(function() {
+		Route::get('/', 'DashboardController@index')->name('dashboard');
+		Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+		//items
+		Route::resource('/items', 'ItemController');
+		Route::get('/items/upload_image/{id}', 'ItemController@upload_image')->name('items.upload_image');
+		Route::post('/items/fileUpload/{id}', 'ItemController@fileUpload')->name('items.fileUpload');
+		Route::post('/items/delete_image', 'ItemController@delete_image')->name('items.delete_image');
+		
+	});
+	
+	
+});

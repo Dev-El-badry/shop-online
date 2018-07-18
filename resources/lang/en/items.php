@@ -1,0 +1,31 @@
+<?php
+
+return [
+
+	'manage_title' => 'Manage Items',
+	'box_title' => 'Items Inventory',
+	'title'=> 'Item Title',
+	'price' => 'Item Price',
+	'was_price' => 'Was Price',
+	'status' => 'Status',
+	'description' => 'Item Description',
+	'actions' => 'Actions',
+	'show' => 'View',
+	'edit' => 'Edit',
+	'active' => 'Active',
+	'inactive' => 'Inactive',
+	'select_option' => 'Select Option',
+	'in' => 'in',
+	'submit' => 'Submit',
+	'cancel' => 'Cancel',
+	'update_item' => 'Update Item',
+	'options' => 'Options',
+	'add_image' => 'Upload New Image',
+	'update_image' => 'Update Image',	
+	'image_empty' => 'Please Upload Image For Item .. There Not Found Image In Database',
+	'warning' => 'Warning',
+	'upload_image_title' => 'Please Choose a file from your computer and thess press "Upload"',
+	'delete_image' => 'Delete Image',
+	'item_image' => 'Item Image',
+	'msg_ok' => 'Are You Sure To Delete Image?',
+];

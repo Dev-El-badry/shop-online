@@ -17,6 +17,7 @@ class CreateBlogsTable extends Migration
             $table->increments('id');
             $table->string('blog_title', 500);
             $table->string('blog_url')->unique();
+            $table->string('blog_url_ar')->unique();
             $table->string('keywords', 300)->nullable();
             $table->text('blog_description')->nullable();
             $table->string('author', 60);

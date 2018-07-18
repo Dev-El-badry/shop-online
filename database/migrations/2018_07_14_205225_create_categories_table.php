@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->string('cat_title', 500);
             $table->string('cat_url')->unqiue();
+            $table->string('cat_url_ar')->unqiue();
             $table->unsignedInteger('cat_parent_id');
             $table->unsignedInteger('priority');
             $table->string('posted_info')->nullable();

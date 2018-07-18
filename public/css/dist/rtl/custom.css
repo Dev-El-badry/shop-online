@@ -1,0 +1,12 @@
+.pull-right {
+	float: left !important;
+}
+
+.pull-left {
+	float: right !important;
+}
+
+.fa-arrow-right {
+	transition: 0.3;
+	transform: rotateY(180deg);
+}

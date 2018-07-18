@@ -17,6 +17,7 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->string('item_title', 500);
             $table->string('item_url')->unique();
+            $table->string('item_url_ar')->unique();
             $table->longText('item_description')->nullable();
             $table->unsignedDecimal('item_price', 7, 2);
             $table->unsignedDecimal('was_price', 7, 2);
