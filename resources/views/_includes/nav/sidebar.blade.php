@@ -16,7 +16,7 @@
     <ul class="sidebar-menu">
       <li class="header">{{ trans('main.main') }}</li>
       <li class="active">
-        <a href="#">
+        <a href="{{ route('admin.dashboard') }}">
           <i class="fa fa-dashboard"></i> <span>{{ trans('main.dashboard') }}</span> 
         </a>
        
@@ -24,7 +24,7 @@
   
        <li class="treeview">
         <a>
-          <i class="fa fa-tag"></i> <span>{{ trans('main.items') }}</span> 
+          <i class="fa fa-tags"></i> <span>{{ trans('main.items') }}</span> 
           <i class="fa fa-angle-left pull-right"></i>
         </a>
 
@@ -43,6 +43,31 @@
         </ul>
        
       </li>
+
+      {{-- Start treeview for categories --}}
+             <li class="treeview">
+        <a>
+          <i class="fa fa-tag"></i> <span>{{ trans('categories.box_title') }}</span> 
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+
+        <!-- Start treeview Manage items -->
+        <ul class="treeview-menu">
+          <li>
+            <a href="{{ route('category.index') }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('categories.manage_title') }}</a>
+          </li>
+          <li>
+            <a href="{{ route('category.create') }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('categories.add_category') }}</a>
+          </li>
+        </ul>
+       
+      </li>
+
+      {{-- End treeview for categories --}}
 
     </ul>
   </section>

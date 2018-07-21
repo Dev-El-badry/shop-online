@@ -1,6 +1,6 @@
 <?php
 
 return [
-	'required' => 'This is Field Is Required',
+	'required' => ' Field Is Required',
 	'unique' => 'Field Please Insert Unique Value'
 ];

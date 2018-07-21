@@ -10,6 +10,11 @@
   option:first-child {
     display: none
   }
+
+  a.btn 
+  {
+    margin-bottom: 10px
+  }
 </style>
 
 @endsection
@@ -30,22 +35,59 @@
   
     <div class="box-body">
 
-      @if($data['image_status'])
-        <div class="callout callout-warning">
-          <h4>{{ trans('items.warning') }}!</h4>
-          {{ trans('items.image_empty') }}
-        </div>
+    @if($data['file_status'])
+    <div class="callout callout-warning">
+      <h4>{{ trans('items.warning') }}!</h4>
+      {{ trans('items.file_empty') }}
+    </div>
+    @endif
 
-        <a href="{{ route('items.upload_image', $item->id) }}" class="btn btn-primary">
-        <i class="fa fa-image"></i> &nbsp;
-        {{ trans('items.add_image') }}</a>
-      @else
-      
-      <a href="#" class="btn btn-danger del_img">
+    @if($data['image_status'])
+      <div class="callout callout-warning">
+        <h4>{{ trans('items.warning') }}!</h4>
+        {{ trans('items.image_empty') }}
+      </div>
+
+    <a href="{{ route('upload_image', $item->id) }}" class="btn btn-primary">
       <i class="fa fa-image"></i> &nbsp;
-      {{ trans('items.delete_image') }}</a>
+      {{ trans('items.add_image') }}</a>
+    @else
+    
+    <a href="#" class="btn btn-danger del_img">
+    <i class="fa fa-image"></i> &nbsp;
+    {{ trans('items.delete_image') }}</a>
 
-      @endif
+    @endif
+
+    @if($data['file_status'])
+     <a href="{{ route('upload_file', $item->id) }}" class="btn btn-primary">
+      <i class="fa fa-file-pdf-o fa-fw"></i> &nbsp;
+      {{ trans('items.add_file') }}</a>
+    @else
+    <a href="#" class="btn btn-danger del_file">
+    <i class="fa fa-file"></i> &nbsp;
+    {{ trans('items.delete_pdf') }}</a>
+
+    <a href="#" class="btn btn-success download_file">
+    <i class="fa fa-cloud-download"></i> &nbsp;
+    {{ trans('items.download_pdf') }}</a>
+    @endif
+
+    <a href="{{ route('update_color', $item->id) }}" class="btn btn-warning">
+    <i class="fa fa-paint-brush fa-fw"></i> &nbsp;
+    {{ trans('items.update_color') }}</a>
+
+    <a href="{{ route('update_size', $item->id) }}" class="btn btn-info">
+    <i class="fa fa-circle fa-fw"></i> &nbsp;
+    {{ trans('items.update_size') }}</a>
+
+    <a href="{{ route('update_cat_assign', $item->id) }}" class="btn btn-success">
+    <i class="fa fa-tags fa-fw"></i> &nbsp;
+    {{ trans('items.upload_items_cat') }}</a>
+
+    <a href="{{ route('delete_item', $item->id) }}" class="btn btn-danger">
+    <i class="fa fa-trash fa-fw"></i> &nbsp;
+    {{ trans('items.item_delete') }}</a>
 
     </div><!-- /.box-body -->
 
@@ -91,7 +133,7 @@
         </div>
 
          <div class="form-group">
-          <label for="was_price" class="col-sm-2">{{ trans('items.was_price') }} <span style="color: green">(optional)</span>:</label>
+          <label for="was_price" class="col-sm-2">{{ trans('items.was_price') }} <span style="color: green">({{ trans('items.optional') }})</span>:</label>
           <div class="col-sm-10">
             <input type="text" class="form-control width-small" id="was_price" name="was_price" placeholder="{{ trans('items.was_price') }}" value="{{ $item->was_price }}">
           </div>
@@ -163,6 +205,7 @@
     </div>
 </div>
 
+@if(!$data['image_status'])
 
 {{-- Start Section Options --}}
 <div class="box box-primary">
@@ -178,22 +221,23 @@
     </div><!-- /.box-body -->
 
 </div>
-
+@endif
 @endsection
+
 
 @section('scripts')
 <script src="https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
 <script src="{{ asset('js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
  <script>
-      $(function () {
-        // Replace the <textarea id="editor1"> with a CKEditor
-        // instance, using default configuration.
-        CKEDITOR.replace('editor_en');
-        CKEDITOR.replace('editor_ar');
-        //bootstrap WYSIHTML5 - text editor
-        $(".textarea").wysihtml5();
-      });
-    </script>
+  $(function () {
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('editor_en');
+    CKEDITOR.replace('editor_ar');
+    //bootstrap WYSIHTML5 - text editor
+    $(".textarea").wysihtml5();
+  });
+</script>
 <script>
 
   $(document).ready(function() {
@@ -214,7 +258,7 @@
         id: {!! $item->id !!}
       };
 
-      var target_url = '{!! route('items.delete_image') !!}';
+      var target_url = '{!! route('delete_image') !!}';
 
       $.post(
         target_url,
@@ -227,7 +271,7 @@
           }
           else
           {
-            alert('occured mistake! try agin');
+            alert('error occured .. try again!');
           }
         },
       );
@@ -237,5 +281,72 @@
 
   });
 </script>
+
+<script>
+$('.del_file').on('click', function(event) {
+  event.preventDefault();
+  var result = confirm("{!! trans('file_ok') !!}");
+
+  if(result)
+  {
+    //do something
+
+  var obj = {
+    "_token": "{{ csrf_token() }}",
+    id: {!! $item->id !!}
+  };
+
+  var target_url = '{!! route('delete_pdf') !!}';
+
+  $.post(
+    target_url,
+    obj,
+    function(data) {
+      //window.location.reload();
+      if(data == 1)
+      {
+        location.reload();
+      }
+      else
+      {
+        alert('occured mistake! try agin');
+      }
+    },
+  );
+
+  }
+}); 
+</script>
+
+<script>
+$(document).ready(function() {
+
+  $('.download_file').on('click', function(event) {
+
+    event.preventDefault();
+
+    var obj = {
+      "_token": "{{ csrf_token() }}",
+      "pdf_file": "{{ $item->pdf_file }}"
+    };
+
+    var target_url = "{{ route('downloadFile') }}";
+
+    $.post(
+      target_url,
+      obj,
+      function(data) {
+        if(data == 1) {
+          alert('{!! trans('items.done_download') !!}');
+        } else {
+          alert('occured mistake! try agin');
+        }
+      }
+    );
+  }); 
+
+});
+</script>
+
 
 @endsection

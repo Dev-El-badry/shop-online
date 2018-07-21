@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Cat_assign;
+use App\Models\Item_color;
+use App\Models\Item_size;
 use Validator;
 use App\Rules\ArrayNotContainNullValue;
 use App\Traits\SiteSettings;
@@ -12,6 +15,7 @@ use App\Rules\Chk_if_title_unique;
 use Session;
 use Image;
 use File;
+
 
 
 class ItemController extends Controller
@@ -29,6 +33,104 @@ class ItemController extends Controller
         $currencySymbol =  $this->get_currency_symble();
         return view('manage.items.index')->withItems($items)->withCurrencySymbol($currencySymbol);
     }
+
+    ////////////////////////////////Upload File
+
+    public function downloadFile(Request $request) 
+    {
+        $filename = $request->pdf_file;
+
+        $file_path = public_path().'/pdf_files/'.$filename;
+        $header = ['Content-Type: application/pdf'];
+        $newName = 'item-information-pdf-file'.time().'.pdf';
+
+        $res = response()->download($file_path, $newName, $header);
+
+        if($res) 
+            return 1;
+
+        return 0;
+    }
+
+    private function delete_process_pdf($id) {
+        $item = Item::findOrFail($id);
+        $pdf_file = public_path('/pdf_files/').$item->pdf_file;
+
+        if(file_exists($pdf_file)) 
+        {
+            
+            File::delete($pdf_file);
+        }
+    }
+
+    public function delete_pdf(Request $request) 
+    {   
+        $item_id = $request->id;
+
+        if(is_numeric($item_id))
+        {
+           $this->delete_process_pdf($item_id);
+           $item = Item::findOrFail($item_id);
+           $item->pdf_file = null;
+           $item->save();
+
+           return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public function fileUploadPdf(Request $request, $id) {
+
+        if($request->submit == 'Upload')
+        {
+            if(is_numeric($id)) {
+
+                $validator = validator($request->all(), [
+                    'file'=> 'required|mimes:pdf|max:10000'
+                ]);
+
+                if($validator->fails())
+                {
+                    return redirect()->route('upload_file', $id)->withErrors($validator);
+                }
+
+                $pdf = $request->file('file');
+            
+                $input['pdf'] = uniqid().$pdf->getClientOriginalName().'.'.$pdf->getClientOriginalExtension();
+
+                $dist = public_path('/pdf_files');
+                
+                $pdf->move($dist, $input['pdf']);
+                
+                $item = Item::findOrFail($id);
+                $item->pdf_file = $input['pdf'];
+                $item->save();
+
+                Session::flash('item', 'Successfully Uploaded PDF!');
+                return redirect()->route('items.edit', $id);
+
+            } else {
+                echo $this->not_allowed();
+            }
+        }
+        elseif($request->submit == 'Cancel')
+        {
+            return redirect()->route('items.edit', $id);
+        }
+
+    }
+
+
+    public function upload_file($id)
+    {
+        return view('manage.items.upload_file')->withId($id);
+    }
+
+
+    ////////////////////////////////Upload Image
 
     private function delete_process($id) {
         $item = Item::findOrFail($id);
@@ -86,7 +188,7 @@ class ItemController extends Controller
 
                 if($validator->fails())
                 {
-                    return redirect()->route('items.upload_image', $id)->withErrors($validator);
+                    return redirect()->route('upload_image', $id)->withErrors($validator);
                 }
 
                 $image = $request->file('file');
@@ -217,7 +319,9 @@ class ItemController extends Controller
     {
         $item = Item::findOrFail($id);
         $data['image_status'] = $item->big_img == null ? TRUE : FALSE;
+        $data['file_status'] = $item->pdf_file == null ? TRUE : FALSE;
         $data['image'] = $item->big_img;
+        $data['pdf'] = $item->pdf_file;
         $options = array(''=> trans('select_option'),1=> trans('items.active'), 0=> trans('items.inactive'));
         return view('manage.items.edit')->withItem($item)->withOptions($options)->withData($data);
     }
@@ -289,8 +393,39 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        
+        if($request->submit == 'Finished')
+        {
+            return redirect()->route('items.edit', $id);
+        }
+
+        if(is_numeric($id))
+        {
+            $this->delete_process_config($id);
+            return redirect()->route('items.index');
+        }
+    }
+
+    public function delete_config($update_id)
+    {
+        if(is_numeric($update_id))
+        {
+            return view('manage.items.delete_config', compact('update_id'));
+        }
+    }
+
+    private function delete_process_config($id)
+    {
+        if(is_numeric($id))
+        {
+            $this->delete_process_pdf($id);
+            $this->delete_process($id);
+            Item_color::where('item_id', $id)->delete(); 
+            Item_size::where('item_id', $id)->delete(); 
+            Cat_assign::where('item_id', $id)->delete();
+            $item = Item::where('id', $id)->delete();
+        }
     }
 }

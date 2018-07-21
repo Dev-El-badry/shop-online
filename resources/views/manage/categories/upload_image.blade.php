@@ -15,7 +15,7 @@
       @endforeach
     </div>
     @endif
-  	{!! Form::open(['route'=> ['fileUpload', $id] , 'enctype'=> 'multipart/form-data']) !!}
+  	{!! Form::open(['route'=> ['do_upload_cat_pic', $update_id] , 'enctype'=> 'multipart/form-data']) !!}
     <div class="box-body">
 
      <p style="color: green; ">{{ trans('items.upload_image_title') }}</p>

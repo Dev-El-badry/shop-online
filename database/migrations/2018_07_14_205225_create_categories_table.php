@@ -18,8 +18,8 @@ class CreateCategoriesTable extends Migration
             $table->string('cat_title', 500);
             $table->string('cat_url')->unqiue();
             $table->string('cat_url_ar')->unqiue();
-            $table->unsignedInteger('cat_parent_id');
-            $table->unsignedInteger('priority');
+            $table->unsignedInteger('cat_parent_id')->default(0);
+            $table->unsignedInteger('priority')->default(0);
             $table->string('posted_info')->nullable();
             $table->string('picture')->nullable();
         });

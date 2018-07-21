@@ -74,7 +74,8 @@
 
         <!-- Main content -->
         <section class="content">
-          
+          @component('components.who')
+          @endcomponent
         @yield('content')
 
         </section><!-- /.content -->

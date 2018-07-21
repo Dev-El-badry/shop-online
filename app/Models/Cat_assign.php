@@ -8,12 +8,13 @@ class Cat_assign extends Model
 {
     protected $table = 'cat_assign';
     protected $fillable = ['item_id', 'cat_id'];
+    public $timestamps = false;
 
     public function items() {
     	return $this->hasMany('Item');
     }
 
     public function categories() {
-    	return $this->hasMany('Category');
+    	return $this->hasMany('App\Models\Category');
     }
 }
