@@ -25,7 +25,7 @@
 
 			<?php
 			use App\Http\Controllers\CategoryController;
-			echo CategoryController::get_sortable_list($data['row_id']); 
+			echo CategoryController::get_sortable_list($data['row_id'], $data['status']); 
 			?>
 
         </div>
@@ -56,8 +56,7 @@
 @endphp
 
 @section('scripts')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $( "#sortlist" ).sortable({

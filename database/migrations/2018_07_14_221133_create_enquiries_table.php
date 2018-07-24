@@ -22,7 +22,7 @@ class CreateEnquiriesTable extends Migration
             $table->tinyInteger('opened');
             $table->string('code', 10);
             $table->tinyInteger('urgent');
-            $table->tinyInteger('ranking');
+            $table->tinyInteger('ranking')->dafault(0);
             $table->timestamps();
         });
     }

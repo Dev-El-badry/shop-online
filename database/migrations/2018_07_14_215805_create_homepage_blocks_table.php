@@ -16,7 +16,7 @@ class CreateHomepageBlocksTable extends Migration
         Schema::create('homepage_blocks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('block_title', 500);
-            $table->unsignedInteger('priority');
+            $table->unsignedInteger('priority')->default(0);
         });
     }
 

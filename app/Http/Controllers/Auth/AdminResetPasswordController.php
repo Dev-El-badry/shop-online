@@ -28,7 +28,7 @@ class AdminResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = LaravelLocalization::getCurrentLocale().'/manage';
+    protected $redirectTo = 'en/manage';
 
     /**
      * Create a new controller instance.

@@ -23,7 +23,10 @@ return [
 	'add_image' => 'Upload New Image',
 	'update_image' => 'Update Image',	
 	'image_empty' => 'Please Upload Image For Item .. There Not Found Image In Database',
-	'warning' => 'Warning',
+	'warning' => 'Warning No Image',
+	'warning_file' => 'Warning No PDF File',
+	'warning_g' => 'Warning No Image In Gallries',
+	'warning_pdf' => 'Warning No PDF',
 	'upload_image_title' => 'Please Choose a file from your computer and thess press "Upload"',
 	'delete_image' => 'Delete Image',
 	'item_image' => 'Item Image',
@@ -64,4 +67,14 @@ return [
 	'item_delete' => 'Delete Item',
 	'del_config_title' => 'Are Your Sure From Delete This Item all details will removed',
 	'submit_del' => 'Yes - I want Delete Item',
+	'submit_del_img' => 'Yes - I want Delete Image',
+	'alert' => 'Alert',
+	'update_item_galleries'=> 'Manage Item Galleries',
+	'item_galleries'=> 'Item Galleries',
+	'succ_img'=> 'Successfully Uploaded Image!',
+	'empty'=>'There Not Found Items In Database',
+	'del_image'=> 'Successfully Deleted Image',
+	'alert_g' => 'Note: You have at least one image in item gallries',
+
+	
 ];

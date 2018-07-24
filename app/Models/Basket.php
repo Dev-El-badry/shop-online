@@ -10,10 +10,10 @@ class Basket extends Model
     protected $fillable = ['item_title', 'price', 'item_qty', 'item_color', 'item_size', 'shopper_id', 'ip_address'];
 
     public function items() {
-    	return $this->hasMany('Item');
+    	return $this->belongsTo('App\Models\Item', 'item_id');
     }
 
     public function users() {
-    	return $this->belongTo('User');
+    	return $this->belongsTo('App\Models\User');
     }
 }

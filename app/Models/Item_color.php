@@ -11,6 +11,6 @@ class Item_color extends Model
     protected $fillable = ['item_id', 'color'];
 
     public function items() {
-    	return $this->belongTo('Item');
+    	return $this->belongsTo('App\Models\Item', 'item_id');
     }
 }

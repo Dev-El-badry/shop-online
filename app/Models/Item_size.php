@@ -11,6 +11,6 @@ class Item_size extends Model
     protected $fillable = ['item_id', 'size'];
 
     public function items() {
-    	return $this->belongTo('Item');
+    	return $this->belongsTo('App\Models\Item', 'item_id');
     }
 }

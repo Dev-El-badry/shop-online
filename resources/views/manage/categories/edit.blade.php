@@ -30,32 +30,55 @@
 	        {{ session('item') }}
 	    </div>
 	@endif
+
+{{-- Start Section Options --}}
+{{-- Start Section Options --}}
+<div class="box box-primary">
+  <div class="box-header with-border">
+    <h3 class="box-title"><i class="fa fa-gear"></i> &nbsp;{{ trans('items.options') }}</h3>
+  </div><!-- /.box-header -->
+ 
+  
+    <div class="box-body">
+
+  	<a href="{{ route('category.index', $category->for_what) }}" class="btn btn-default">
+   
+   &nbsp;{{ trans('categories.pervious_page') }}</a>
+
+   	<a href="{{ route('cat_del_config', $category->id) }}" 
+   class="btn btn-danger del_cat">
+   <i class="fa fa-trash fa-fw"></i>
+   &nbsp;{{ trans('categories.del_cat') }}</a>
+
+
+	@if($data['image'])
+
+	<a href="{{ route('delete_cat_pic', $category->id) }}" 
+	   class="btn btn-danger del_picture">
+		<i class="fa fa-trash-o fa-fw"></i>
+	&nbsp;{{ trans('categories.delete_picture') }}</a>
+
+	@else
+
+	<a href="{{ route('upload_cat_pic', $category->id) }}" 
+	   class="btn btn-success">
+		<i class="fa fa-image fa-fw"></i>
+	&nbsp;{{ trans('categories.upload_picture') }}</a>
+
+	@endif
+
+    </div><!-- /.box-body -->
+
+</div>
+
+{{-- End Section Options --}}
+
 {{-- Start Section Add Category --}}
 <div class="box box-primary">
   <div class="box-header with-border">
     <h3 class="box-title"><i class="fa fa-gear"></i> &nbsp;{{ trans('categories.update_cat') }}</h3> <small>{{ unserialize($category->cat_title)[LaravelLocalization::getCurrentLocale()] }}</small>
 
-<a href="{{ route('cat_del_config', $category->id) }}" 
-   class="btn btn-danger pull-right del_cat">
-   <i class="fa fa-trash fa-fw"></i>
-   &nbsp;{{ trans('categories.del_cat') }}</a>
 
-
-@if($data['image'])
-
-<a href="{{ route('delete_cat_pic', $category->id) }}" 
-   class="btn btn-danger pull-right del_picture">
-	<i class="fa fa-trash-o fa-fw"></i>
-&nbsp;{{ trans('categories.delete_picture') }}</a>
-
-@else
-
-<a href="{{ route('upload_cat_pic', $category->id) }}" 
-   class="btn btn-success pull-right">
-	<i class="fa fa-image fa-fw"></i>
-&nbsp;{{ trans('categories.upload_picture') }}</a>
-
-@endif
 
 
   </div><!-- /.box-header -->
@@ -82,6 +105,12 @@
 	    	{!! Form::select('cat_parent_id', $data['options'], $category->cat_parent_id, ['class'=>' col-sm-8 options', 'id'=> 'cat_parent']) !!}
 	    </div>
 	</div>
+	<div class="col-md-12">
+		<div class="form-group" id="select-options">
+			<label for="cat_parent" class="col-sm-2">{{ trans('blog.for_what') }} </label>
+	    	{!! Form::select('for_what', $data['status'], $category->for_what, ['class'=>' col-sm-8 options', 'id'=> 'cat_parent']) !!}
+	    </div>
+	</div>
 
 
 	@foreach(LaravelLocalization::getSupportedLocales() as $key=>$value)
@@ -94,6 +123,9 @@
 		</div>
 	</div>
 	@endforeach
+
+	<input type="hidden" name="cat_url" id="cat_url" />
+	<input type="hidden" name="cat_url_ar" id="cat_url_ar" />
 
     </div><!-- /.box-body -->
 
@@ -148,5 +180,26 @@
 			}
 		);
 	});
+</script>
+
+<script>
+
+
+$(document).ready(function() {
+
+  $('#cat_url').val(convertToSlug($('#category_en').val()));
+  $('#cat_url_ar').val(make_slug($('#category_ar').val()));
+
+	$('#category_en').keyup(function() {
+		var slug = convertToSlug($(this).val());
+		$('#cat_url').val(slug);
+	});
+
+	$('#category_ar').keyup(function() {
+		var slug = make_slug($(this).val());
+		$('#cat_url_ar').val(slug);
+	});
+
+});
 </script>
 @endsection

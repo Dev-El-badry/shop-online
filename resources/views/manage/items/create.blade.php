@@ -106,7 +106,8 @@
               </div>
 
               @endforeach
-
+              <input type="hidden" name="item_url" id="item_url" />
+              <input type="hidden" name="item_url_ar" id="item_url_ar" />
             </div>
             <!-- /.tab-content -->
           </div>
@@ -157,5 +158,20 @@
 
   });
 </script>
+
+
+<script>
+  
+  $('#title_en').keyup(function() {
+    var slug = convertToSlug($(this).val());
+    $('#item_url').val(slug);
+  });
+
+  $('#title_ar').keyup(function() {
+    var slug = make_slug($(this).val());
+    $('#item_url_ar').val(slug);
+  });
+</script>
+
 
 @endsection

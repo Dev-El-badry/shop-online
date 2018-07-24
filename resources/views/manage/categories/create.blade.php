@@ -51,17 +51,28 @@
 	    </div>
 	</div>
 
+	<div class="col-md-12">
+		<div class="form-group" id="select-options">
+			<label for="cat_parent" class="col-sm-2">{{ trans('blog.for_what') }} </label>
+	    	{!! Form::select('for_what', $data['status'], '', ['class'=>' col-sm-8 options', 'id'=> 'cat_parent']) !!}
+	    </div>
+	</div>
+
 
 	@foreach(LaravelLocalization::getSupportedLocales() as $key=>$value)
 	<div class="col-md-6 col-sm-12">
 		<div class="form-group">
 			<label for="category_{{ $key }}" class="col-sm-4">{{ trans('categories.category_title_in') }} {{ $value['native'] }}</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" id="category_{{ $key }}" name="cat_title[{{ $key }}]" dir="auto">
+				<input type="text" class="form-control" id="category_{{ $key }}" name="cat_title[{{ $key }}]" dir="auto" 
+				value="{{ old('cat_title['.$key.']') }}">
 			</div>
 		</div>
 	</div>
 	@endforeach
+
+	<input type="hidden" name="cat_url" id="cat_url" />
+	<input type="hidden" name="cat_url_ar" id="cat_url_ar" />
 
     </div><!-- /.box-body -->
 
@@ -74,4 +85,19 @@
 
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+	
+	$('#category_en').keyup(function() {
+		var slug = convertToSlug($(this).val());
+		$('#cat_url').val(slug);
+	});
+
+	$('#category_ar').keyup(function() {
+		var slug = make_slug($(this).val());
+		$('#cat_url_ar').val(slug);
+	});
+</script>
 @endsection

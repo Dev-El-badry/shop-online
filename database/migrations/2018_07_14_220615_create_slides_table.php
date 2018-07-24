@@ -18,7 +18,7 @@ class CreateSlidesTable extends Migration
             $table->unsignedInteger('parent_id');
             $table->string('target_url')->nullable();
             $table->string('alt_text', 500)->nullable();
-            $table->string('picture');
+            $table->string('picture')->nullable();
 
             $table->foreign('parent_id')->references('id')->on('sliders')->onDelete('cascade');
         });

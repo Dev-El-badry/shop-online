@@ -21,6 +21,31 @@
         </a>
        
       </li>
+
+      {{-- Start Slider --}}
+
+       <li class="treeview">
+        <a>
+          <i class="fa fa-image"></i> <span>{{ trans('slider.slider') }}</span> 
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+
+        <!-- Start treeview Manage items -->
+        <ul class="treeview-menu">
+          <li>
+            <a href="{{ route('sliders.index') }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('slider.slider_manage') }}</a>
+          </li>
+          <li>
+            <a href="{{ route('sliders.create') }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('slider.add_slider') }}</a>
+          </li>
+        </ul>
+       
+      </li>
+      {{-- End Slider --}}
   
        <li class="treeview">
         <a>
@@ -45,18 +70,23 @@
       </li>
 
       {{-- Start treeview for categories --}}
-             <li class="treeview">
+      <li class="treeview">
         <a>
           <i class="fa fa-tag"></i> <span>{{ trans('categories.box_title') }}</span> 
           <i class="fa fa-angle-left pull-right"></i>
         </a>
 
-        <!-- Start treeview Manage items -->
+       
         <ul class="treeview-menu">
           <li>
-            <a href="{{ route('category.index') }}">
+            <a href="{{ route('category.index', 1) }}">
             <i class="fa fa-circle-o"></i>
-            {{ trans('categories.manage_title') }}</a>
+            {{ trans('categories.manage_title_blog') }}</a>
+          </li>
+           <li>
+            <a href="{{ route('category.index', 0) }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('categories.manage_title_items') }}</a>
           </li>
           <li>
             <a href="{{ route('category.create') }}">
@@ -68,6 +98,107 @@
       </li>
 
       {{-- End treeview for categories --}}
+
+      {{-- Start treeview for webpages --}}
+      <li class="treeview">
+        <a>
+          <i class="fa fa-file"></i> <span>{{ trans('cms.manage_title') }}</span> 
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+
+       
+        <ul class="treeview-menu">
+          <li>
+            <a href="{{ route('web_pages.index') }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('cms.manage_webpage') }}</a>
+          </li>
+          <li>
+            <a href="{{ route('web_pages.create') }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('cms.add_cms') }}</a>
+          </li>
+        </ul>
+       
+      </li>
+
+      {{-- End treeview for webpages --}}
+
+       {{-- Start treeview for blogs --}}
+      <li class="treeview">
+        <a>
+          <i class="fa fa-file-o"></i> <span>{{ trans('blog.manage_title') }}</span> 
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+
+       
+        <ul class="treeview-menu">
+          <li>
+            <a href="{{ route('blogs.index') }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('blog.manage_title') }}</a>
+          </li>
+          <li>
+            <a href="{{ route('blogs.create') }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('blog.add_blog') }}</a>
+          </li>
+        </ul>
+       
+      </li>
+
+      {{-- End treeview for blogs --}}
+
+      {{-- Start treeview for homepage_blocks --}}
+      <li class="treeview">
+        <a>
+          <i class="fa fa-star"></i> <span>{{ trans('blocks.homepage_blocks') }}</span> 
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+
+       
+        <ul class="treeview-menu">
+          <li>
+            <a href="{{ route('homepage_blocks.index') }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('blocks.manage_block') }}</a>
+          </li>
+          <li>
+            <a href="{{ route('homepage_blocks.create') }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('blocks.add_block') }}</a>
+          </li>
+        </ul>
+       
+      </li>
+
+      {{-- End treeview for homepage_blocks --}}
+
+      {{-- Start treeview for users --}}
+      <li class="">
+        <a href="{{ route('users.index') }}">
+          <i class="fa fa-users"></i> <span>{{ trans('user.manage_title') }}</span> 
+         
+        </a>
+
+       
+       
+      </li>
+
+      {{-- End treeview for users --}}
+
+        {{-- Start treeview for enquiries --}}
+      <li class="">
+        <a href="{{ route('enquiries.index') }}">
+          <i class="fa fa-envelope"></i> <span>{{ trans('enquiries.manage_tilte') }}</span> 
+         
+        </a>
+
+       
+       
+      </li>
+
+      {{-- End treeview for enquiries --}}
 
     </ul>
   </section>

@@ -8,8 +8,9 @@ class Homepage_Block extends Model
 {
     protected $table = 'homepage_blocks';
     protected $fillable = ['block_title', 'priority'];
+    public $timestamps = false;
 
     public function homepage_offers() {
-    	return $this->belongTo('Homepage_Offer');
+    	return $this->hasMany('App\Models\Homepage_Offer', 'block_id');
     }
 }

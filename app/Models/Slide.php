@@ -8,8 +8,9 @@ class Slide extends Model
 {
     protected $table = 'slides';
     protected $fillable = ['parent_id', 'target_url', 'alt_text', 'picture'];
+    public $timestamps = false;
 
     public function sliders() {
-    	return $this->belongTo('Slider');
+    	return $this->belongsTo('App\Models\Slider', 'parent_id');
     }
 }

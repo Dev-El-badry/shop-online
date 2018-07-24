@@ -10,3 +10,11 @@
 	transition: 0.3;
 	transform: rotateY(180deg);
 }
+
+.sidebar-menu li>a>.pull-right {
+	position: relative !important;
+	top: 50% !important;
+	line-height: 47px !important;
+	right: -3px !important;
+	margin-top: -7px !important;
+}

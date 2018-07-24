@@ -13,8 +13,10 @@
 
   a.btn 
   {
-    margin-bottom: 10px
+    margin-bottom: 10px;
+
   }
+
 </style>
 
 @endsection
@@ -23,7 +25,10 @@
 
 <h1 class="manage_title">
 <i class="fa fa-edit"></i>
-{{ trans('items.update_item') }} <small>{{ unserialize($item->item_title)[LaravelLocalization::getCurrentLocale()] }}</smal>
+{{ trans('items.update_item') }} <small>{{ unserialize($item->item_title)[LaravelLocalization::getCurrentLocale()] }}</smal>    
+<a href="{{ route('items.index') }}" class="btn btn-default pull-right">
+   
+   &nbsp;{{ trans('categories.pervious_page') }}</a>
 </h1>
 
 {{-- Start Section Options --}}
@@ -35,16 +40,27 @@
   
     <div class="box-body">
 
+    @if(!empty($item->item_galleries->toArray()))
+      
+      <div class="alert alert-info alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-info"></i>{{ trans('items.alert') }}!</h4>
+        {{ trans('items.alert_g') }}
+      </div>
+
+    @endif
     @if($data['file_status'])
-    <div class="callout callout-warning">
-      <h4>{{ trans('items.warning') }}!</h4>
+    <div class="alert alert-warning alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <h4><i class="icon fa fa-info"></i>{{ trans('items.warning_file') }}!</h4>
       {{ trans('items.file_empty') }}
     </div>
     @endif
 
     @if($data['image_status'])
-      <div class="callout callout-warning">
-        <h4>{{ trans('items.warning') }}!</h4>
+      <div class="alert alert-warning alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-info"></i>{{ trans('items.warning') }}!</h4>
         {{ trans('items.image_empty') }}
       </div>
 
@@ -72,6 +88,11 @@
     <i class="fa fa-cloud-download"></i> &nbsp;
     {{ trans('items.download_pdf') }}</a>
     @endif
+
+
+    <a href="{{ route('item_galleries.update_group', $item->id) }}" class="btn btn-info">
+    <i class="fa fa-upload"></i> &nbsp;
+    {{ trans('items.update_item_galleries') }}</a>
 
     <a href="{{ route('update_color', $item->id) }}" class="btn btn-warning">
     <i class="fa fa-paint-brush fa-fw"></i> &nbsp;
@@ -179,7 +200,8 @@
               </div>
 
               @endforeach
-
+ <input type="hidden" name="item_url" id="item_url" />
+              <input type="hidden" name="item_url_ar" id="item_url_ar" />
             </div>
             <!-- /.tab-content -->
           </div>
@@ -347,6 +369,24 @@ $(document).ready(function() {
 
 });
 </script>
+<script>
+  
+$(document).ready(function() {
 
+  $('#item_url').val(convertToSlug($('#title_en').val()));
+  $('#item_url_ar').val(make_slug($('#title_ar').val()));
+
+  $('#title_en').keyup(function() {
+    var slug = convertToSlug($(this).val());
+    $('#item_url').val(slug);
+  });
+
+  $('#title_ar').keyup(function() {
+    var slug = make_slug($(this).val());
+    $('#item_url_ar').val(slug);
+  });
+
+});
+</script>
 
 @endsection

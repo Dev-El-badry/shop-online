@@ -15,12 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', function() {
-	return view('home');
-});
 
-Auth::routes();
-Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 //Admin Area
 Route::prefix('dvilsf')->group(function() {
 
@@ -43,8 +38,19 @@ Route::prefix(LaravelLocalization::setLocale())->group(function() {
 		Route::get('/', 'DashboardController@index');
 		Route::get('/dashboard', 'DashboardController@index')->name('admin.dashboard');
 
+		//Users
+		Route::prefix('users')->group(function() {
+
+			Route::get('/index', 'UsersController@index')->name('users.index');
+			Route::get('/', 'UsersController@index')->name('users.index');
+			Route::get('/view/{user_id}', 'UsersController@view')->name('users.view');
+			Route::get('/delete_config/{user_id}', 'UsersController@delete_config')->name('users.delete_config');
+			Route::delete('/destroy/{user_id}', 'UsersController@destroy')->name('users.destroy');
+		});
+
+
 		//items
-		Route::resource('/items', 'ItemController');
+		Route::resource('/items', 'ItemController', ['except'=> 'show']);
 		Route::prefix('items')->group(function() {
 			
 			//Upload Image
@@ -75,7 +81,8 @@ Route::prefix(LaravelLocalization::setLocale())->group(function() {
 		});
 
 		//Categories
-		Route::resource('/category', 'CategoryController');
+		Route::resource('/category', 'CategoryController', ['except'=> ['show', 'index']]);
+		Route::get('category/index/{status}', 'CategoryController@index')->name('category.index');
 
 		Route::prefix('category')->group(function() {
 			Route::post('/sort', 'CategoryController@sort');
@@ -92,7 +99,72 @@ Route::prefix(LaravelLocalization::setLocale())->group(function() {
 			Route::post('/store/{update_id}', 'Cat_assignController@store')->name('store_item_category');
 			Route::post('/delete', 'Cat_assignController@delete')->name('del_cat_assign');
 		});
-		
+
+		//CMS
+		Route::resource('web_pages', 'CMSController', ['except'=> 'show']);
+		Route::get('web_pages/delete_config/{id}', 'CMSController@deletePage')->name('cms.delete');
+
+		//Blogs
+		Route::resource('blogs', 'BlogController', ['except'=> 'show']);
+		Route::prefix('blogs')->group(function() {
+			Route::get('delete_config/{id}', 'BlogController@delete_config')->name('blogs.delete_config');
+			Route::get('upload_image/{id}', 'BlogController@upload_image')->name('blogs.upload_image');
+			Route::post('do_upload/{id}', 'BlogController@do_upload')->name('blogs.do_upload');
+			Route::post('delete_image', 'BlogController@delete_image')->name('blogs.delete_image');
+
+			//category assign
+			Route::get('get_cat_assign/{blog_id}', 'BlogController@get_cat_assign')->name('blogs.get_cat_asign');
+			Route::post('submit_action/{blog_id}', 'BlogController@submit_action')->name('blogs.submit_action');
+			Route::post('delete_cat_assign', 'BlogController@delete_cat_assign')->name('blogs.delete_cat_assign');
+		});
+
+		//Homepageblocks
+		Route::resource('homepage_blocks', 'HomepageBlock', ['except'=> 'show']);
+		Route::post('homepage_blocks/sort', 'HomepageBlock@sort');
+		Route::get('homepage_blocks/delete_config/{id}', 'HomepageBlock@delete_config')->name('homepage_blocks.delete_config');
+
+		//HoepageOffers
+		Route::get('update/{id}', 'Homepage_offers@update')->name('homepage_offers.update');
+		Route::post('store/{id}', 'Homepage_offers@store')->name('homepage_offers.store');
+		Route::post('delete', 'Homepage_offers@delete')->name('homepage_offers.delete');
+
+		//Sliders
+		Route::resource('sliders', 'SliderController');
+		Route::get('sliders/delete_config/{slider_id}', 'SliderController@delete_config')->name('sliders.delete_config');
+
+		//Slides
+		Route::prefix('slides')->group(function() {
+
+			Route::get('update_group/{slider_id}', 'SlideController@update_group')->name('slides.update_group');
+			Route::post('store/{slider_id}', 'SlideController@store')->name('slides.store');
+			Route::put('update/{slide_id}', 'SlideController@update')->name('slides.update');
+			Route::get('view/{slide_id}', 'SlideController@view')->name('slides.view');
+			Route::get('upload_image/{slide_id}', 'SlideController@upload_image')->name('slides.upload_image');
+			Route::post('do_upload/{slide_id}', 'SlideController@do_upload')->name('slides.do_upload');
+			Route::get('delete_config/{slide_id}', 'SlideController@delete_config')->name('slides.delete_config');
+			Route::delete('destroy/{slide_id}', 'SlideController@destroy')->name('slides.destroy');
+
+		});
+
+		//Item Galleries
+		Route::prefix('item_galleries')->group(function() {
+
+			Route::get('update_group/{item_id}', 'Item_galleriesController@update_group')->name('item_galleries.update_group');
+			Route::get('upload_image/{id}', 'Item_galleriesController@upload_image')->name('item_galleries.upload_image');
+			Route::post('do_upload/{id}', 'Item_galleriesController@do_upload')->name('item_galleries.do_upload');
+			Route::get('delete_config/{id}', 'Item_galleriesController@delete_config')->name('item_galleries.delete_config');
+			Route::delete('destroy/{id}', 'Item_galleriesController@destroy')->name('item_galleries.destroy');
+
+		});
+
+		//Enquiries
+		Route::prefix('enquiries')->group(function() {
+			Route::get('/index', 'EnquiryController@index')->name('enquiries.index');
+			Route::get('/', 'EnquiryController@index');
+			Route::get('/view/{update_id}', 'EnquiryController@view')->name('enquiries.view');
+			Route::post('/submitted_ranking/{update_id}', 'EnquiryController@submitted_ranking')->name('enquiries.submitted_ranking');
+		});
+
 	});
 	
 	

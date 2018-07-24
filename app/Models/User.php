@@ -28,10 +28,20 @@ class User extends Authenticatable
     ];
 
     public function basket() {
-        return $this->hasOne('Basket');
+        return $this->hasMany('App\Models\Basket', 'shopper_id');
+    }
+
+    public function items()
+    {
+        return $this->belongsToMany('App\Models\Item', 'favourite', 'user_id', 'item_id');
     }
 
     public function order() {
         return $this->hasMany('Order');
+    }
+
+    public function enquiries()
+    {
+        return $this->hasMany('App\Models\Enquiries', 'sent_by');
     }
 }

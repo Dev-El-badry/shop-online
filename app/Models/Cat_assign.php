@@ -11,7 +11,7 @@ class Cat_assign extends Model
     public $timestamps = false;
 
     public function items() {
-    	return $this->hasMany('Item');
+    	return $this->hasMany(Item::class);
     }
 
     public function categories() {

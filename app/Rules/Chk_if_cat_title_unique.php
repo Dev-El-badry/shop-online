@@ -75,7 +75,7 @@ class Chk_if_cat_title_unique implements Rule
              return TRUE;
 
           }
-
+        return TRUE;
     }
 
     /**

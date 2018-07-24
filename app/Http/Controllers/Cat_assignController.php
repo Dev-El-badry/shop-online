@@ -23,7 +23,7 @@ class Cat_assignController extends Controller
 
 	private function get_dropdown_options()
 	{
-		$categories = Category::all();
+		$categories = Category::where('for_what', 0)->get();
 
 		foreach ($categories as $row) {
 			
@@ -52,12 +52,12 @@ class Cat_assignController extends Controller
     		//do something
     		$options = $this->get_dropdown_options();
     		
-    		$cats_assign = Cat_assign::all();
-    		$num_rows = Cat_assign::count();
+    		$cats_assign = Cat_assign::where('item_id', $update_id)->get();
+    		$num_rows = Cat_assign::where('item_id', $update_id)->count();
 
     		foreach ($cats_assign as $row) {
     			$cat_id = $row->cat_id;
-    			$category = Category::where('id', $cat_id)->first();
+    			$category = Category::where('id', $cat_id)->where('for_what', 0)->first();
     			if($category->cat_parent_id == 0)
     			{
     				$cat_assigned[$category->id] = unserialize($category->cat_title)[LaravelLocalization::getCurrentLocale()];

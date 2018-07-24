@@ -11,6 +11,8 @@
 	{{ trans('main.add_item') }}
 </a>
 
+<p>{{ $items->links() }}</p>
+
 <div class="row">
 	<div class="col-xs-12">
       <div class="box">
@@ -31,6 +33,7 @@
 				<table class="table">
 					<thead>
 						<tr>
+							<th>{{ trans('blog.id') }}</th>
 							<th>{{ trans('items.title') }}</th>
 							<th>{{ trans('items.price') }}</th>
 							<th>{{ trans('items.was_price') }}</th>
@@ -44,15 +47,16 @@
 
 						@forelse($items as $row)
 							<tr>
+							<td>{{ $row->id }}</td>
 								<td>{{ unserialize($row->item_title)[LaravelLocalization::getCurrentLocale()] }}</td>
 								<td>{{ $row->item_price }} {!! $currencySymbol !!}</td>
 								<td>{{ $row->was_price }} {!! $currencySymbol !!}</td>
 								<td>{!! $row->status == 1 ? '<small class="label label-primary">'.trans('items.active') .'</label>' : '<small class="label label-danger">'.trans('items.inactive').'</label>' !!}</td>
 								<td>{!!  unserialize($row->item_description)[LaravelLocalization::getCurrentLocale()] !!}</td>
 								<td class="pull-right">
-									<a href="{{ route('items.show', $row->id) }}" class="btn btn-default">
+									{{-- <a href="{{ route('items.show', $row->id) }}" class="btn btn-default">
 									<i class="fa fa-eye fa-fw"></i> &nbsp;
-									{{ trans('items.show') }}</a>
+									{{ trans('items.show') }}</a> --}}
 									<a href="{{ route('items.edit', $row->id) }}" class="btn btn-default">
 									<i class="fa fa-edit fa-fw"></i> &nbsp;
 									{{ trans('items.edit') }}</a>
@@ -62,7 +66,7 @@
 						@empty
 						<tr>
 							<td>
-							<p style="color: red;">There Not Found Items In Database</p>
+							<p style="color: red;">{{ trans('items.empty') }}</p>
 							</td>
 						</tr>
 						@endforelse
@@ -79,5 +83,5 @@
     </div>
 </div>
 
-
+<p>{{ $items->links() }}</p>
 @endsection

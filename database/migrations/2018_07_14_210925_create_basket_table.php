@@ -17,6 +17,8 @@ class CreateBasketTable extends Migration
             $table->increments('id');
             $table->string('item_title');
             $table->unsignedDecimal('price', 7, 2);
+            $table->integer('tax');
+            $table->unsignedInteger('item_id');
             $table->unsignedInteger('item_qty');
             $table->string('item_color')->nullable();
             $table->string('item_size')->nullable();
@@ -25,6 +27,7 @@ class CreateBasketTable extends Migration
             $table->timestamps();
 
             $table->foreign('shopper_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('item_id')->references('id')->on('items');
         });
     }
 

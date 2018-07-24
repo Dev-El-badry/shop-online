@@ -10,14 +10,14 @@ class Order extends Model
     protected $fillable = ['order_ref', 'payment_type', 'payment_id', 'ip_address', 'opened', 'order_status_id', 'shopper_id', 'mc_gross'];
 
     public function order_status() {
-    	return $this->belongTo('Order_status');
+    	return $this->belongsTo('Order_status');
     }
 
     public function users() {
-    	return $this->belongTo('User');
+    	return $this->belongsTo('User');
     }
 
     public function items() {
-    	return $this->belongTo('Item');
+    	return $this->belongsTo('Item');
     }
 }

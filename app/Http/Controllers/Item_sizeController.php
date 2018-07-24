@@ -34,13 +34,7 @@ class Item_sizeController extends Controller
         if($request->submit == 'Submit')
         {
             $validator = Validator::make($request->all(), [
-                'size'=> ['required', 
-                            function($attribute, $value, $fail) {
-                                    if(in_array(null, $value, true)) {
-                                        return $fail(trans('items.size'). ' '. trans('rule.required'));
-                                    }
-                            },
-                ],
+                'size.*'=> ['required' ],
             ]);
 
             if($validator->fails())

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Cat_assign;
 use App\Models\Item_color;
+use App\Models\Item_galleries;
 use App\Models\Item_size;
+use App\Models\Basket;
 use Validator;
 use App\Rules\ArrayNotContainNullValue;
 use App\Traits\SiteSettings;
@@ -206,7 +208,7 @@ class ItemController extends Controller
                 $item->small_img = $imagename_thubmnail;
                 $item->save();
 
-                Session::flash('item', 'Successfully Uploaded Image!');
+                Session::flash('item', trans('items.succ_img'));
                 return redirect()->route('items.edit', $id);
 
             } else {
@@ -251,23 +253,12 @@ class ItemController extends Controller
 
 
             $validators = Validator::make($request->all(), [
-                'item_title'=> ['required', 
-                    function($attribute, $value, $fail) {
-                        if(in_array(null, $value, true)) {
-                            return $fail(trans('items.title'). ' '. trans('rule.required'));
-                        }
-                    },
-                    new Chk_if_title_unique()
-                ],
+                'item_title.*'=> 'required',
                 
-                'item_description' => ['required', 
-                    function($attribute, $value, $fail) {
-                        if(in_array(null, $value, true)) {
-                            return $fail(trans('items.description'). ' '. trans('rule.required'));
-                        }
-                    }
-                ],
+                'item_description.*' => 'required',
                 'item_price' => 'required|numeric',
+                'item_url'=>'required|unique:items',
+                'item_url_ar'=>'required|unique:items',
                 'was_price' => 'numeric',
                 'status'=> 'required|numeric'
             ]);
@@ -286,8 +277,8 @@ class ItemController extends Controller
             $item->was_price = $request->was_price;
             $item->status = $request->status;
 
-            $item->item_url = str_slug($request->item_title['en']);
-            $item->item_url_ar = preg_replace('/\s+/', '-', $request->item_title['ar']);
+              $item->item_url = $request->item_url;
+            $item->item_url_ar = $request->item_url_ar;
 
             $item->save();
             Session::flash('item', 'Successfully Added!');
@@ -317,11 +308,15 @@ class ItemController extends Controller
      */
     public function edit($id)
     {
-        $item = Item::findOrFail($id);
+
+        $item = Item::where('id', $id)->with('item_galleries')->first();
+        
+        //dd($item->toArray());
         $data['image_status'] = $item->big_img == null ? TRUE : FALSE;
         $data['file_status'] = $item->pdf_file == null ? TRUE : FALSE;
         $data['image'] = $item->big_img;
         $data['pdf'] = $item->pdf_file;
+       
         $options = array(''=> trans('select_option'),1=> trans('items.active'), 0=> trans('items.inactive'));
         return view('manage.items.edit')->withItem($item)->withOptions($options)->withData($data);
     }
@@ -339,23 +334,10 @@ class ItemController extends Controller
 
 
             $validators = Validator::make($request->all(), [
-                'item_title'=> ['required', 
-                    function($attribute, $value, $fail) {
-                        if(in_array(null, $value, true)) {
-                            return $fail(trans('items.title'). ' '. trans('rule.required'));
-                        }
-                    },
-                    new Chk_if_title_unique($id)
-                ],
-                
-                'item_description' => ['required', 
-                    function($attribute, $value, $fail) {
-                        if(in_array(null, $value, true)) {
-                            return $fail(trans('items.description'). ' '. trans('rule.required'));
-                        }
-                    },
-                   
-                ],
+                'item_title.*'=> 'required',
+                 'item_url'=>'required|unique:items,item_url,'.$id,
+                'item_url_ar'=>'required|unique:items,item_url_ar,'.$id,
+                'item_description.*' => 'required',
                 'item_price' => 'required|numeric',
                 'was_price' => 'numeric',
                 'status'=> 'required|numeric'
@@ -375,8 +357,8 @@ class ItemController extends Controller
             $item->was_price = $request->was_price;
             $item->status = $request->status;
 
-            $item->item_url = str_slug($request->item_title['en']);
-            $item->item_url_ar = preg_replace('/\s+/', '-', $request->item_title['ar']);
+            $item->item_url = $request->item_url;
+            $item->item_url_ar = $request->item_url_ar;
 
             $item->save();
             Session::flash('item', 'Successfully Updated!');
@@ -416,15 +398,33 @@ class ItemController extends Controller
         }
     }
 
+    public function delete_process_galleries($id)
+    {
+        $item_g = Item_galleries::where('parent_id', $id)->get();
+        foreach ($item_g as $row) {
+             $big_img = public_path('/item_galleries/').$row->picture;
+       
+            if(file_exists($big_img) ) 
+            {
+                
+                File::delete($big_img);
+            }
+        }
+       
+    }
+
     private function delete_process_config($id)
     {
         if(is_numeric($id))
         {
             $this->delete_process_pdf($id);
             $this->delete_process($id);
+            $this->delete_process_galleries($id);
             Item_color::where('item_id', $id)->delete(); 
             Item_size::where('item_id', $id)->delete(); 
             Cat_assign::where('item_id', $id)->delete();
+            Item_galleries::where('parent_id', $id)->delete();
+            Basket::where('item_id', $id)->delete();
             $item = Item::where('id', $id)->delete();
         }
     }

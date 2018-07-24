@@ -17,10 +17,9 @@ class CreateWebpagesTable extends Migration
             $table->increments('id');
             $table->string('page_title', 500);
             $table->string('page_url')->unique();
-            $table->string('page_url_ar')->unique();
+           
             $table->string('page_keywords', 300)->nullable();
             $table->text('page_description')->nullable();
-            $table->string('headline')->nullable();
             $table->longText('page_content');
         });
     }

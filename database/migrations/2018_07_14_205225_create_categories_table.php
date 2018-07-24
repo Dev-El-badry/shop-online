@@ -22,6 +22,7 @@ class CreateCategoriesTable extends Migration
             $table->unsignedInteger('priority')->default(0);
             $table->string('posted_info')->nullable();
             $table->string('picture')->nullable();
+            $table->boolean('for_what')->default(0);
         });
     }
 

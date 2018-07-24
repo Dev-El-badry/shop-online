@@ -13,26 +13,37 @@ class Item extends Model
     ];
 
     public function basket() {
-    	return $this->belongTo('Basket');
+    	return $this->hasMany('App\Models\Basket', 'item_id');
     }
 
-    public function cat_assign() {
-    	return $this->belongTo('Cat_assign');
+    public function categories()
+    {
+        return $this->belongsToMany('App\Models\Category', 'cat_assign', 'item_id', 'cat_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User', 'favourite', 'item_id', 'user_id');
     }
 
     public function order() {
-    	return $this->belongTo('Order');
+    	return $this->belongsTo('Order');
     }
 
     public function item_color() {
-    	return $this->hasMany('Item_color');
+    	return $this->hasMany('App\Models\Item_color', 'item_id');
     }
 
     public function item_size() {
-    	return $this->hasMany('Item_size');
+    	return $this->hasMany('App\Models\Item_size', 'item_id');
     }
 
     public function homepage_offers() {
-    	return $this->belongTo('Homepage_Offer');
+    	return $this->hasMany('App\Models\Homepage_Offer');
+    }
+
+    public function item_galleries()
+    {
+        return $this->hasMany('App\Models\Item_galleries', 'parent_id');
     }
 }

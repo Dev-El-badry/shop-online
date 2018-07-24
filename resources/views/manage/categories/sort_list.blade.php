@@ -50,7 +50,7 @@
 				@endphp
 			@endif
 
-			<a href="{{ route('category.index') }}?id={{ $row->id }}" style="background-color: #ccc" class="badge">
+			<a href="{{ route('category.index', $status) }}?id={{ $row->id }}" style="background-color: #ccc" class="badge">
 				{{ $get_count_categories }}  Sub-{{ $entity }}
 			</a>
 		@endif

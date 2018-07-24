@@ -35,13 +35,7 @@ class Item_colorController extends Controller
     	if($request->submit == 'Submit')
     	{
 	    	$validator = Validator::make($request->all(), [
-	    		'color'=> ['required', 
-			    			function($attribute, $value, $fail) {
-			                        if(in_array(null, $value, true)) {
-			                            return $fail(trans('items.color'). ' '. trans('rule.required'));
-			                        }
-		                    },
-	    		],
+	    		'color.*'=> ['required'],
 	    	]);
 
 	    	if($validator->fails())

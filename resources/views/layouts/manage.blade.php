@@ -74,8 +74,7 @@
 
         <!-- Main content -->
         <section class="content">
-          @component('components.who')
-          @endcomponent
+         
         @yield('content')
 
         </section><!-- /.content -->
@@ -88,13 +87,16 @@
     </div><!-- ./wrapper -->
 
     <!-- jQuery 2.1.4 -->
-    <script src="{{ asset('js/jQuery-2.1.4.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/jQuery-2.1.4.min.js') }}"></script> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     
      <!-- Bootstrap 3.3.4 -->
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
     <!-- AdminLTE App -->
     <script src="{{ asset('js/app.min.js') }}"></script>
+    <script src="{{ asset('js/functions.js') }}"></script>
     
     @yield('scripts')
   </body>

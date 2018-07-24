@@ -154,27 +154,30 @@ class CategoryController extends Controller
         return $categories_count;
     }
 
-    public static function get_sortable_list($cat_parent_id) {
+    public static function get_sortable_list($cat_parent_id, $status) {
         $data['categories'] = Category::where('cat_parent_id', '=', $cat_parent_id)
+                                    ->where('for_what', $status)
                                     ->orderBy('priority', 'asc')
                                     ->get();
         $data['this_site'] = TRUE;
 
-        return view('manage.categories.sort_list', compact('data'))->render();
+        return view('manage.categories.sort_list', compact('data', 'status'))->render();
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $status = null)
     {
+       
         $data['row_id'] = $request->id;
 
         if(!is_numeric($data['row_id']))
         {
             $data['row_id'] = 0;
         }
+        $data['status'] = $status;
 
         return view('manage.categories.index')->withData($data);
     }
@@ -188,6 +191,7 @@ class CategoryController extends Controller
     {
 
         $data['options'] = $this->get_dropdown_categories();
+        $data['status'] = [''=> trans('blog.please_choose'),'0'=> trans('blog.category'), '1'=> trans('blog.blog')];
         return view('manage.categories.create')->withData($data);
     }
 
@@ -201,20 +205,14 @@ class CategoryController extends Controller
     {
         if($request->submit == 'Cancel')
         {
-            return redirect()->route('category.index');
+            return redirect()->route('category.index', 0);
         }
 
         $validator = Validator::make($request->all(), [
-            'cat_title' => [
-                    
-                    function($attribute, $value, $fail) {
-                        if(in_array(null, $value, true)) {
-                            return $fail(trans('categories.category'). ' '. trans('rule.required'));
-                        }
-                    },
-                     new Chk_if_cat_title_unique()
-            ],
-           
+            'cat_title.*' => 'required',
+            'cat_url' => 'required|unique:categories',
+            'cat_url_ar' => 'required|unique:categories',
+            'for_what'=> 'required|numeric',
         ]);
 
         if($validator->fails())
@@ -229,6 +227,7 @@ class CategoryController extends Controller
         $category->cat_url_ar = preg_replace('/\s+/', '-', $request->cat_title['ar']);
 
         $category->cat_parent_id = $request->cat_parent_id;
+        $category->for_what = $request->for_what;
         $category->save();
 
         Session::flash('item', trans('categories.msg_success'));
@@ -257,7 +256,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $data['options'] = $this->get_dropdown_categories();
-       
+        $data['status'] = [''=> trans('blog.please_choose'),'0'=> trans('blog.category'), '1'=> trans('blog.blog')];
         $data['image'] = $category->picture;
         if(!empty($data['image']))
         {
@@ -279,24 +278,23 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $for = Category::where('id', $id)->first()->for_what;
         if($request->submit == 'Cancel')
         {
+            if($for == 0)
+                return redirect()->route('category.index', 0);
 
-            return redirect()->route('category.index');
+            return redirect()->route('category.index',1);
         }
 
         $validator = Validator::make($request->all(), [
-            'cat_title' => [
-                    
-                    function($attribute, $value, $fail) {
-                        if(in_array(null, $value, true)) {
-                            return $fail(trans('categories.category'). ' '. trans('rule.required'));
-                        }
-                    },
-                    new Chk_if_cat_title_unique($id)
-            ],
-            
+            'cat_title.*' =>  'required',
+            'cat_url' => 'required|unique:categories,cat_url,'.$id,
+            'cat_url_ar' => 'required|unique:categories,cat_url_ar,'.$id,
+            'for_what'=> 'required|numeric',
+           
         ]);
+
 
         if($validator->fails())
         {
@@ -310,6 +308,7 @@ class CategoryController extends Controller
         $category->cat_url_ar = preg_replace('/\s+/', '-', $request->cat_title['ar']);
 
         $category->cat_parent_id = $request->cat_parent_id;
+        $category->for_what = $request->for_what;
         $category->save();
 
         Session::flash('item', trans('categories.msg_success_update'));
@@ -325,11 +324,15 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+         $for = Category::where('id', $id)->first()->for_what;
         if($request->submit == 'Yes - I want Delete Category')
         {
             $this->delete_process($id);
 
-            return redirect()->route('category.index');
+            if($for == 0)
+                return redirect()->route('category.index', 0);
+
+            return redirect()->route('category.index',1);
         } elseif($request->submit == 'Finished')
         {
             return redirect()->route('category.edit', $id);
