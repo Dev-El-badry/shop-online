@@ -21,13 +21,13 @@ class RegisterController extends Controller
     		'name' => 'required|max:255|unique:users',
     		'email' => 'required|email|max:255|unique:users',
     		'password' => 'required|min:6',
-        'phone_number'=> 'sometimes|nullable|string|min:10|unique:users'
+            'phone_number'=> 'sometimes|nullable|string|min:10|unique:users'
     	];
 
     	$validator = Validator::make($credentials, $rules);
     	if($validator->fails())
     	{
-    		return response()->json(['success'=>false, 'errors'=> $validator->errors() ]);
+    		return response()->json(['success'=>false, 'errors'=> $validator->errors() ], 401);
     	}
 
     	$user = new User();
@@ -52,7 +52,7 @@ class RegisterController extends Controller
     		$mail->subject($subject);
     	});
 
-    	return response()->json(['success'=>true, 'message'=>'Thanks For Signing Up! Please Check Your Email To Complete Your Register']);
+    	return response()->json(['success'=>true, 'message'=>'Thanks For Signing Up! Please Check Your Email To Complete Your Register'], 200);
     }
 
     public function verifyUser(Request $request)
