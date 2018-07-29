@@ -33,7 +33,7 @@ return [
 	'del_slider'=> 'Are You Sure From Delete Slides?',
 	'del_alert_slider'=>'Are You Sure From Delete Slider, Will delete all slide related with it?',
 	'delete_slider_alert'=> 'Successfully Delete Slider',
-	'slider'=> 'Feature Product',
+	'slider'=> 'Feature Products',
 
 
 
