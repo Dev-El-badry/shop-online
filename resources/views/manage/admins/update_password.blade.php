@@ -5,8 +5,12 @@
 
 <h1 class="manage_title">
 <i class="fa fa-plus"></i>
-{{ trans('slider.add_slider') }}
+{{ trans('admins.update_password') }}
 </h1>
+
+
+
+
 
 {{-- Show Message Success --}}
 @if (Session::has('item'))
@@ -20,7 +24,7 @@
   <div class="col-xs-12">
       <div class="box">
         <div class="box-header">
-          <h3 class="box-title" style="color: #f00">{{ trans('slider.add_slider') }}</h3>
+          <h3 class="box-title" style="color: #f00">{{ trans('admins.update_password') }}</h3>
       
         </div>
          @if($errors->any())
@@ -31,7 +35,7 @@
         </div>
         @endif
         {{-- Start Form --}}
-        <form action="{{ route('sliders.store') }}" method="POST" role="form" class="form-horizontal">
+        <form action="{{ route('admins.submit_password', $update_id) }}"  method="POST" role="form" class="form-horizontal">
         {{ csrf_field() }}
 
        
@@ -39,28 +43,50 @@
         <!-- /.box-header -->
         <div class="box-body">
 
-        
-        <div class="form-group">
-          <label for="author" class="col-sm-2">{{ trans('slider.slider_title') }} :</label>
+
+
+        <div class="row">
+          <div class="col-md-8 col-sm-12">
+
+
+         <div class="form-group">
+          <label for="password" class="col-sm-2">{{ trans('admins.password') }}:</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="author" name="slider_title" placeholder="" value="{{ old('slider_title') }}">
+            <input type="password" class="form-control" id="password" name="password" placeholder="" autocomplete="off">
           </div>
         </div>
 
-{{--         <div class="form-group">
-          <label for="author" class="col-sm-2">{{ trans('slider.target_url') }} :</label>
+    
+
+         <div class="form-group">
+          <label for="password_confirmation" class="col-sm-2">{{ trans('admins.password_confirmation') }}:</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="author" name="target_url" placeholder="" value="{{ old('target_url') }}">
+            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" autocomplete="off">
           </div>
         </div>
-      --}}
-        
+
+         
+
+
+         
         </div>
+
+
+
+        </div> <!-- End .col-md-8 -->
+
+
+      </div> <!-- End .row -->
+
+
+
+
+
         <!-- /.box-body -->
 
         {{-- Start Box Footer --}}
         
-        <div class="box-footer text-center">
+        <div class="box-footer">
           <button type="submit" class="btn btn-lg btn-primary" name="submit" value="Submit">{{ trans('items.submit') }}</button>
           <button type="submit" class="btn btn-lg btn-danger" name="submit" value="Cancel">{{ trans('items.cancel') }}</button>
         </div>
@@ -75,4 +101,3 @@
 
 
 @endsection
-

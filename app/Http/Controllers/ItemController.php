@@ -17,8 +17,8 @@ use App\Rules\Chk_if_title_unique;
 use Session;
 use Image;
 use File;
-
-
+use DB;
+use Input;
 
 class ItemController extends Controller
 {
@@ -35,6 +35,95 @@ class ItemController extends Controller
         $currencySymbol =  $this->get_currency_symble();
         return view('manage.items.index')->withItems($items)->withCurrencySymbol($currencySymbol);
     }
+
+    public function search(Request $request)
+    {
+        $query = Input::post('query');
+       
+            $items = DB::select("
+            SELECT 
+            COUNT(id) as count_id,
+            items.*
+            from items
+            where item_title LIKE '%".$query."%'
+            ");
+
+            $output = '';
+            if($items[0]->count_id >0)
+            {
+               foreach ($items as $row) {
+                 if($row->status == 0)
+                    {
+                        $status =  '<small class="label label-danger">' . trans('items.inactive') . '</small>';
+                    } else {
+                        $status =  '<small class="label label-primary">'. trans('items.active') . '</small>';
+                    }
+                    $output .= "
+                    <tr>
+                    <td>".$row->id."</td>
+                    <td>".unserialize($row->item_title)[LaravelLocalization::getCurrentLocale()]."</td>
+                    <td>".$row->item_price .' '.$this->get_currency_symble() ."</td>
+                    <td>".$row->was_price .' '.$this->get_currency_symble() ."</td>
+
+                    <td>
+                    ".
+
+                    $status
+
+                    ."
+                    </td>
+
+                    <td>". unserialize($row->item_description)[LaravelLocalization::getCurrentLocale()] ."</td>
+
+
+                    <td class='pull-right'>
+                     
+                        <a href='".url('/items/') .$row->id . 'edit' ."' class='btn btn-default'>
+                        <i class='fa fa-edit fa-fw'></i> &nbsp;
+                        ".trans('items.edit')."</a>
+                    </td>
+                </tr>
+                    ";
+               }
+            } else{
+                $output .= "<p style='color: red; padding:10px'>".trans('items.not_found')."</p>";
+            }
+
+            echo $output;
+        
+    }
+
+    // public function search(Request $request)
+    // {
+    //     $query = Input::post('query');
+       
+    //     if(!empty($query))
+    //     {
+    //         $slug_lang = LaravelLocalization::getCurrentLocale();
+    //         if($slug_lang == 'ar')
+    //         {
+    //             $items = DB::select("
+    //             SELECT 
+    //             SUBSTRING_INDEX(SUBSTRING_INDEX(item_title,';',3),':',-1) AS fieldname2,
+    //             SUBSTRING_INDEX(SUBSTRING_INDEX(item_title,';',4),':',-1) AS fieldvalue2
+    //             from items
+    //             where fieldvalue2 LIKE '%".$query."%'
+    //             ");
+    //         } elseif($slug_lang == 'en')
+    //         {
+    //             $items = DB::select("
+    //             SELECT 
+    //             SUBSTRING_INDEX(SUBSTRING_INDEX(item_title,';',1),':',-1) AS fieldname1,
+    //             SUBSTRING_INDEX(SUBSTRING_INDEX(item_title,';',2),':',-1) AS fieldvalue1,
+    //             from items
+    //             where fieldvalue1 LIKE '%".$query."%'
+    //             ");
+    //         }
+
+
+    //         dd($items);
+    //     }
+    // }
 
     ////////////////////////////////Upload File
 
@@ -235,7 +324,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        $options = array(''=> trans('select_option'),1=> trans('items.active'), 0=> trans('items.inactive'));
+        $options = array(''=> trans('items.select_option'),1=> trans('items.active'), 0=> trans('items.inactive'));
         return view('manage.items.create')->withOptions($options);
     }
 
@@ -260,7 +349,9 @@ class ItemController extends Controller
                 'item_url'=>'required|unique:items',
                 'item_url_ar'=>'required|unique:items',
                 'was_price' => 'numeric',
-                'status'=> 'required|numeric'
+                'status'=> 'required|numeric',
+                'item_qty'=> 'required|numeric',
+                'discount'=> 'required|numeric'
             ]);
 
             if($validators->fails())
@@ -276,6 +367,8 @@ class ItemController extends Controller
             $item->item_price = $request->item_price;
             $item->was_price = $request->was_price;
             $item->status = $request->status;
+            $item->item_qty = $request->item_qty;
+            $item->discount = $request->discount;
 
               $item->item_url = $request->item_url;
             $item->item_url_ar = $request->item_url_ar;
@@ -317,7 +410,7 @@ class ItemController extends Controller
         $data['image'] = $item->big_img;
         $data['pdf'] = $item->pdf_file;
        
-        $options = array(''=> trans('select_option'),1=> trans('items.active'), 0=> trans('items.inactive'));
+        $options = array(''=> trans('items.select_option'),1=> trans('items.active'), 0=> trans('items.inactive'));
         return view('manage.items.edit')->withItem($item)->withOptions($options)->withData($data);
     }
 
@@ -340,7 +433,9 @@ class ItemController extends Controller
                 'item_description.*' => 'required',
                 'item_price' => 'required|numeric',
                 'was_price' => 'numeric',
-                'status'=> 'required|numeric'
+                'status'=> 'required|numeric',
+                'item_qty'=> 'required|numeric',
+                'discount'=> 'required|numeric'
             ]);
 
             if($validators->fails())
@@ -359,6 +454,8 @@ class ItemController extends Controller
 
             $item->item_url = $request->item_url;
             $item->item_url_ar = $request->item_url_ar;
+            $item->item_qty = $request->item_qty;
+            $item->discount = $request->discount;
 
             $item->save();
             Session::flash('item', 'Successfully Updated!');

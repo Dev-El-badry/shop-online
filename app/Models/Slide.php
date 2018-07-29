@@ -13,4 +13,9 @@ class Slide extends Model
     public function sliders() {
     	return $this->belongsTo('App\Models\Slider', 'parent_id');
     }
+
+    public function items()
+    {
+    	return $this->belongsTo('App\Models\Item', 'item_id');
+    }
 }

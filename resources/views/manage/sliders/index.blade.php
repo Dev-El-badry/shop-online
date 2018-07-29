@@ -40,7 +40,7 @@
 						<tr>
 						<th>{{ trans('blog.id') }}</th>
 							<th>{{ trans('slider.slider_title') }}</th>
-							<th>{{ trans('slider.target_url') }}</th>
+							
 							
 							<th></th>
 						</tr>
@@ -54,7 +54,7 @@
 								<td>
 									 {{ $row->slider_title }}
 								</td>
-								<td>{{ $row->target_url == null ? '-' : $row->target_url }}</td>
+								
 								
 								
 								

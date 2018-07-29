@@ -14,7 +14,8 @@ return [
 	'main'=> 'Main',
 	'online' => 'Online',
 
-	'items'=> 'Items',
-	'manage_items' => 'Manage Items',
-	'add_item' => 'Add New Item',
+	'items'=> 'Products',
+	'manage_items' => 'Manage Products',
+	'add_item' => 'Add New Product',
+	'member'=>'Member since',
 ];

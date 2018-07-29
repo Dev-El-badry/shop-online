@@ -7,30 +7,48 @@ use App\Models\Slider;
 use App\Models\Slide;
 use Validator, Session;
 use Image, File;
+use App\Models\Item;
+use App\Traits\SiteSettings;
+use Input;
 
 class SlideController extends Controller
 {
+    use SiteSettings;
     public function update_group($slider_id)
     {
     	$slides = Slider::findOrFail($slider_id)->with('slides')->first();
     	$slides_count = Slide::where('parent_id', $slider_id)->count();
 
-    	return view('manage.slides.update_group', compact('slides', 'slides_count', 'slider_id'));
+        $slidesIds = Slide::pluck('item_id');
+        $items = Item::whereNotIn('id', $slidesIds)->get();
+        $currencySymbol =  $this->get_currency_symble();
+
+    	return view('manage.slides.update_group', compact('slides', 'slides_count', 'slider_id', 'items', 'currencySymbol'));
     }
 
     public function store(Request $request, $slider_id)
-    {
-    	if($request->submit == 'Submit')
-    	{
-    		$slide = new Slide();
-    		$slide->target_url = $request->target_url;
-    		$slide->alt_text = $request->alt_text;
-    		$slide->parent_id = $slider_id;
-    		$slide->save();
+    {   
+        $item_id = Input::post('item_id');
+        $parent_id = Input::post('parent_id');
 
-    		Session::flash('item', trans('alert_add_slide'));
-    		return redirect()->route('slides.view', $slide->id);
-    	}
+        if((is_numeric($item_id)) AND (is_numeric($parent_id)))
+        {
+            
+            $slide = new Slide();
+            $slide->parent_id = $parent_id;
+            $slide->item_id = $item_id;
+            
+
+            $slide->save();
+            
+            Session::flash('item', trans('alert_add_slide'));
+            return response()->json([
+                'result'=> true,
+                'slide_id'=> $slide->id
+            ]);
+            
+        }
+        
     }
 
     public function view($slide_id)

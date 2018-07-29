@@ -19,6 +19,6 @@ return [
 	'delete_picture' => 'Delete Picture',
 	'cat_image' => 'Category Image',
 	'pervious_page' => 'Pervious Page',
-	'manage_title_blog'=> 'Manage Categories For Blogs',
-	'manage_title_items' => 'Manage Categories For Items',
+	'manage_title_blog'=> 'Manage Categories (Blogs)',
+	'manage_title_items' => 'Manage Categories (Items)',
 ];

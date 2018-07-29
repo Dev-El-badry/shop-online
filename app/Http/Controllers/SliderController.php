@@ -41,10 +41,10 @@ class SliderController extends Controller
     {
         if($request->submit == 'Submit')
         {
-            $requests = $request->only('slider_title', 'target_url');
+            $requests = $request->only('slider_title');
             $rules = [
                 'slider_title'=> 'required',
-                'target_url'=> 'sometimes|nullable|url'
+                
             ];
             $validator = Validator::make($requests, $rules);
             if($validator->fails())
@@ -54,7 +54,6 @@ class SliderController extends Controller
 
             $slider = new Slider();
             $slider->slider_title = $request->slider_title;
-            $slider->target_url = $request->target_url;
             
             $slider->save();
 
@@ -101,10 +100,10 @@ class SliderController extends Controller
     {
          if($request->submit == 'Submit')
         {
-            $requests = $request->only('slider_title', 'target_url');
+            $requests = $request->only('slider_title');
             $rules = [
                 'slider_title'=> 'required',
-                'target_url'=> 'sometimes|nullable|url'
+                
             ];
             $validator = Validator::make($requests, $rules);
             if($validator->fails())
@@ -114,8 +113,7 @@ class SliderController extends Controller
 
             $slider = Slider::findOrFail($id);
             $slider->slider_title = $request->slider_title;
-            $slider->target_url = $request->target_url;
-            
+
             $slider->save();
 
             Session::flash('item', trans('slider.alert_update'));

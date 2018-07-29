@@ -4,10 +4,8 @@
 
 <h1 class="manage_title">
 <i class="fa fa-users"></i>
-{{ trans('user.manage_title') }}
+{{ trans('enquiries.manage_tilte') }}
 </h1>
-
-
 
 
 {{-- Show Message Success --}}
@@ -17,7 +15,7 @@
     </div>
 @endif
 @if($enquiries_count <=0)
-<p style="color: red">{{ trans('user.empty') }}</p>
+<p style="color: red">{{ trans('enquiries.alert_empty') }}</p>
 @else
 
 <p>{{ $enquiries->links() }}</p>
@@ -25,7 +23,7 @@
 	<div class="col-xs-12">
       <div class="box">
         <div class="box-header">
-          <h3 class="box-title" style="color: #f00">{{ trans('user.manage_title') }}</h3>
+          <h3 class="box-title" style="color: #f00">{{ trans('enquiries.manage_tilte') }}</h3>
 			
           <div class="box-tools">
             <div class="input-group input-group-sm" style="width: 150px;">
@@ -58,6 +56,7 @@
 							<tr style="color: {{ $row->urgent == 1 ? 'red' : '' }}">
 							@if($row->opened == 0)
 							<td style="color: orange" class="text-center"><i class="fa fa-envelope fa-fw"></i></td>
+							
 							@else
 							<td class="text-center"><i class="fa fa-envelope-o fa-fw"></i></td>
 							@endif

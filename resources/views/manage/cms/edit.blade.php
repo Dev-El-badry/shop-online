@@ -75,27 +75,7 @@
         <!-- /.box-header -->
         <div class="box-body">
 
-
-
-         <div class="form-group">
-          <label for="page_keywords" class="col-sm-2">{{ trans('cms.keywords') }}:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="page_keywords" name="page_keywords" placeholder="{{ trans('cms.enter_keywords') }}" value="{{ $webpage->page_keywords }}">
-          </div>
-        </div>
-
-
-
-
-        <div class="form-group">
-          <label for="page_description" class="col-sm-2">{{ trans('cms.description') }}:</label>
-          <div class="col-sm-10">
-          <textarea name="page_description" id="page_description" rows="10" class="form-control">{{ $webpage->page_description }}</textarea>
-          </div>
-        </div>
-    
-
-        {{-- Start Custom Tabs --}}
+      {{-- Start Custom Tabs --}}
 
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -130,13 +110,34 @@
               </div>
 
               @endforeach
- <input type="hidden" name="page_url" id="page_url" />
+              <input type="hidden" name="page_url" id="page_url" />
             </div>
             <!-- /.tab-content -->
           </div>
 
 
         {{-- End Custom Tabs --}}
+        
+
+         <div class="form-group">
+          <label for="page_keywords" class="col-sm-2">{{ trans('cms.keywords') }} <span style="color: green">({{ trans('items.optional') }})</span>:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="page_keywords" name="page_keywords" placeholder="{{ trans('cms.enter_keywords') }}" value="{{ $webpage->page_keywords }}">
+          </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+          <label for="page_description" class="col-sm-2">{{ trans('cms.description') }} <span style="color: green">({{ trans('items.optional') }})</span>:</label>
+          <div class="col-sm-10">
+          <textarea name="page_description" id="page_description" rows="10" class="form-control">{{ $webpage->page_description }}</textarea>
+          </div>
+        </div>
+    
+
+  
         
         </div>
         <!-- /.box-body -->

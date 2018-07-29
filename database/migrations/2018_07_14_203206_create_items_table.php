@@ -25,6 +25,8 @@ class CreateItemsTable extends Migration
             $table->string('small_img')->nullable();
             $table->tinyInteger('status')->default(0)->unsigned();
             $table->string('pdf_file')->nullable();
+            $table->unsignedInteger('item_qty');
+            $table->tinyInteger('discount'); //0 OR 1
             $table->timestamps();
         });
     }

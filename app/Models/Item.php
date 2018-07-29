@@ -9,7 +9,7 @@ class Item extends Model
     protected $table = 'items';
 
     protected $fillable = [
-    	'item_title', 'item_url', 'item_description', 'item_price', 'was_price', 'big_img', 'small_img', 'status', 'pdf_file'
+    	'item_title', 'item_url', 'item_description', 'item_price', 'was_price', 'big_img', 'small_img', 'status', 'pdf_file', 'item_qty', 'discount'
     ];
 
     public function basket() {
@@ -45,5 +45,10 @@ class Item extends Model
     public function item_galleries()
     {
         return $this->hasMany('App\Models\Item_galleries', 'parent_id');
+    }
+
+    public function slides()
+    {
+        return $this->hasMany('App\Models\Slide', 'item_id');
     }
 }

@@ -22,6 +22,11 @@ return [
 	'delete_blog_alert' => 'Successfully Deleted User',
 	'empty'=> 'There NoT Have Users in Your website',
 	'manage_admin'=> 'Manage Admins',
-	
+	//New
+
+	'users' => 'Users',
+	'latest_members'=>'Latest Members',
+	'label'=>' New Members',
+	'view_all_users'=> 'View All Users',
 
 ];

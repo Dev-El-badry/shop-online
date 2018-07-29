@@ -4,7 +4,12 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>P</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">{{ trans('main.ADMIN_PANEL') }}</span>
+       @php
+          $store_title_info = \DB::table('store_information')->orderBy('id', 'desc')->
+          first()->store_title;
+          
+        @endphp
+      <span class="logo-lg">{{ unserialize($store_title_info)[LaravelLocalization::getCurrentLocale()] }}</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -88,25 +93,31 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
-              <span class="hidden-xs">eslam elbadry</span>
+              @php
+                $admin_info = \DB::table('admins')->orderBy('id', 'desc')->first();
+                $admin_name = $admin_info->name; 
+                $admin_job_title = $admin_info->job_title; 
+                $admin_created_at = $admin_info->created_at; 
+              @endphp
+              <span class="hidden-xs">{{ $admin_name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="{{ asset('img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
                 <p>
-                 eslam elbader - php developer
-                  <small>Member since Nov. 2012</small>
+                 {{ $admin_name }} - {{  $admin_job_title }}
+                  <small>{{ trans('main.member') }} {{ $admin_created_at }}</small>
                 </p>
               </li>
 
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">{{ trans('main.profile') }}</a>
+                  <a href="{{ route('admins.view', $admin_info->id) }}" class="btn btn-default btn-flat">{{ trans('main.profile') }}</a>
                 </div>
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">{{ trans('main.signout') }}</a>
+                  <a href="{{ route('admin.logout') }}" class="btn btn-default btn-flat">{{ trans('main.signout') }}</a>
                 </div>
               </li>
             </ul>

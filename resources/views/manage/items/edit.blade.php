@@ -161,6 +161,24 @@
         </div>
 
         <div class="form-group">
+          <label for="item_qty" class="col-sm-2">{{ trans('items.item_qty') }} <span style="color: green">({{ trans('items.optional') }})</span>:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control width-small" id="item_qty" name="item_qty" placeholder="{{ trans('items.item_qty') }}" value="{{ $item->item_qty }}">
+          </div>
+        </div>
+
+         <div class="form-group">
+         @php
+           $options_discount = [''=>trans('items.select_option'), 1=> trans('items.yes'), 0=> trans('items.no')];
+         @endphp
+          <label for="discount" class="col-sm-2">{{ trans('items.discount') }}:</label>
+          <div class="col-sm-10">
+           
+            {!! Form::select('discount', $options_discount, $item->discount, ['class'=>'form-control  width-small']) !!}
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="status" class="col-sm-2">{{ trans('items.status') }}:</label>
           <div class="col-sm-10">
          

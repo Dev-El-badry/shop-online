@@ -38,6 +38,7 @@ Route::prefix(LaravelLocalization::setLocale())->group(function() {
 		Route::get('/', 'DashboardController@index');
 		Route::get('/dashboard', 'DashboardController@index')->name('admin.dashboard');
 
+		
 		//Users
 		Route::prefix('users')->group(function() {
 
@@ -53,6 +54,9 @@ Route::prefix(LaravelLocalization::setLocale())->group(function() {
 		Route::resource('/items', 'ItemController', ['except'=> 'show']);
 		Route::prefix('items')->group(function() {
 			
+			//search items
+			Route::post('/search', 'ItemController@search')->name('items.search');
+
 			//Upload Image
 			Route::get('/upload_image/{id}', 'ItemController@upload_image')->name('upload_image');
 			Route::post('/fileUpload/{id}', 'ItemController@fileUpload')->name('fileUpload');
@@ -164,6 +168,31 @@ Route::prefix(LaravelLocalization::setLocale())->group(function() {
 			Route::get('/view/{update_id}', 'EnquiryController@view')->name('enquiries.view');
 			Route::post('/submitted_ranking/{update_id}', 'EnquiryController@submitted_ranking')->name('enquiries.submitted_ranking');
 		});
+
+		//Store Information
+		Route::prefix('store_info')->group(function() {
+
+			Route::get('update/{update_id}', 'Store_infoController@update')->name('store_info.update');
+			Route::post('store/{update_id}', 'Store_infoController@store')->name('store_info.store');
+			Route::get('view/{update_id}', 'Store_infoController@view')->name('store_info.view');
+			Route::get('social_media/{update_id}', 'Store_infoController@social_media')->name('store_info.social_media');
+			Route::get('update_times/{update_id}', 'Store_infoController@update_times')->name('store_info.update_times');
+			Route::post('submit_update/{update_id}/{date_id}', 'Store_infoController@submit_update')->name('store_info.submit_update');
+			Route::post('store_social_media/{update_id}', 'Store_infoController@store_social_media')->name('store_info.store_social_media');
+			Route::post('delete_account', 'Store_infoController@delete_account')->name('store_info.delete_account');
+			Route::post('do_upload/{update_id}', 'Store_infoController@do_upload')->name('store_info.do_upload');
+		});
+
+		//Admins
+		Route::prefix('admins')->group(function() {
+			Route::get('view/{update_id}', 'AdminController@view')->name('admins.view');
+			Route::post('update_admin/{update_id}', 'AdminController@update_admin')->name('admins.update_admin');
+			Route::get('update/{update_id}', 'AdminController@update')->name('admins.update');
+			Route::get('update_password/{update_id}', 'AdminController@update_password')->name('admins.update_password');
+			Route::post('submit_password/{update_id}', 'AdminController@submit_password')->name('admins.submit_password');
+		});
+
+
 
 	});
 	

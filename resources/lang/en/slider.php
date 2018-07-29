@@ -2,7 +2,7 @@
 
 return [
 
-	'add_slider'=> 'Add New Slider',
+	'add_slider'=> 'Add New Feature Product',
 	'target_url'=> 'Target URL',
 	'slider_title'=> 'Slider Title',
 	'update_slider' => 'Update Slider',
@@ -28,12 +28,12 @@ return [
 	'submit_del_slider'=> 'Yes - I want Delete Slider',
 	'delete_slide_alert'=> 'Successfully Deleted Slide',
 	'slides'=> 'Slides',
-	'slider_manage'=> 'Slider Manage',
+	'slider_manage'=> 'Feature Products Manage',
 	'alert_empty'=> 'not found records in database .. add new record ',
 	'del_slider'=> 'Are You Sure From Delete Slides?',
 	'del_alert_slider'=>'Are You Sure From Delete Slider, Will delete all slide related with it?',
 	'delete_slider_alert'=> 'Successfully Delete Slider',
-	'slider'=> 'Slider',
+	'slider'=> 'Feature Product',
 
 
 

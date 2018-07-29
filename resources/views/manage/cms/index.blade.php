@@ -9,7 +9,7 @@
 
 
 
-<a class="btn btn-primary add-item"  href="{{ route('items.create') }}">
+<a class="btn btn-primary add-item"  href="{{ route('web_pages.create') }}">
 	<i class="fa fa-plus"></i>
 	{{ trans('cms.add_cms') }}
 </a>

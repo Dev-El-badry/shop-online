@@ -7,7 +7,11 @@
         <img src="{{ asset('img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p>Eslam Elbadry</p>
+        @php
+          $admin_info = \DB::table('admins')->orderBy('id', 'desc')->first();
+          $admin_name = $admin_info->name; 
+        @endphp
+        <p>{{ $admin_name }}</p>
         <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('main.online') }}</a>
       </div>
     </div>
@@ -21,6 +25,46 @@
         </a>
        
       </li>
+
+            {{-- Start treeview for store information --}}
+      <li class="treeview">
+        <a>
+          <i class="fa fa-database fa-fw"></i> <span>{{ trans('store_info.titile') }}</span> 
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+
+       
+        <ul class="treeview-menu">
+        @php
+          $store_id = \DB::table('store_information')->orderBy('id', 'desc')->first()->id;
+        @endphp
+          <li>
+            <a href="{{ route('store_info.update', $store_id ) }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('store_info.update_store') }}</a>
+          </li>
+          <li>
+            <a href="{{ route('store_info.view', $store_id) }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('store_info.view_store') }}</a>
+          </li>
+
+           <li>
+            <a href="{{ route('store_info.view', $store_id) }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('store_info.update_social_media') }}</a>
+          </li>
+
+           <li>
+            <a href="{{ route('store_info.update_times', $store_id) }}">
+            <i class="fa fa-circle-o"></i>
+            {{ trans('store_info.update_work_times') }}</a>
+          </li>
+        </ul>
+       
+      </li>
+
+      {{-- End treeview for store information --}}
 
       {{-- Start Slider --}}
 
@@ -173,6 +217,22 @@
       </li>
 
       {{-- End treeview for homepage_blocks --}}
+
+       {{-- Start treeview for admins --}}
+      <li class="">
+      @php
+        $admin_id = \DB::table('admins')->orderBy('id', 'desc')->first()->id;
+      @endphp
+        <a href="{{ route('admins.view', $admin_id) }}">
+          <i class="fa fa-briefcase"></i> <span>{{ trans('admins.manage_title') }}</span> 
+         
+        </a>
+
+       
+       
+      </li>
+
+      {{-- End treeview for admins --}}
 
       {{-- Start treeview for users --}}
       <li class="">

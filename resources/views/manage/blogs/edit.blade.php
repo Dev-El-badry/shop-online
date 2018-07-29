@@ -10,15 +10,19 @@
   option:first-child {
     display: none
   }
-
   .box-options {
     border: 1px solid red;
-    padding-left: 20px;
+    padding-left: 0px;
     width: 100%;
     margin: 10px auto;
     text-align: center;
     padding-top: 14px;
   }
+
+.box-options>.form-group {
+    display: inline-block;
+    margin-left: 50px;
+}
 </style>
 
 @endsection
@@ -103,47 +107,7 @@
         <!-- /.box-header -->
         <div class="box-body">
 
-            <div class="form-group">
-          <label for="author" class="col-sm-2">{{ trans('blog.author') }}:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="author" name="author" placeholder="" value="{{ $blog->author }}">
-          </div>
-        </div>
-
-         <div class="form-group">
-          <label for="keywords" class="col-sm-2">{{ trans('blog.keywords') }}:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="keywords" name="keywords" placeholder="{{ trans('blog.enter_keywords') }}" value="{{ $blog->keywords }}">
-          </div>
-        </div>
-
-
-
-
-        <div class="form-group">
-          <label for="blog_description" class="col-sm-2">{{ trans('blog.description') }}:</label>
-          <div class="col-sm-10">
-          <textarea name="blog_description" id="blog_description" rows="10" class="form-control">{{ $blog->blog_description }}</textarea>
-          </div>
-        </div>
-
-      <div class="box-options">
-        <div class="form-group">
-           <label>
-                <input type="radio" name="status" value="0" class="minimal" checked>
-                {{ trans('blog.save_darft') }}
-            </label>
-        </div>
-         <div class="form-group">
-           <label>
-                <input type="radio" name="status" value="0" class="minimal" checked>
-                {{ trans('blog.publish') }}
-            </label>
-        </div>
-    </div>
-    
-
-        {{-- Start Custom Tabs --}}
+                {{-- Start Custom Tabs --}}
 
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -178,13 +142,57 @@
               </div>
 
               @endforeach
-<input type="hidden" name="blog_url" id="blog_url" />
+        <input type="hidden" name="blog_url" id="blog_url" />
             </div>
             <!-- /.tab-content -->
           </div>
 
 
         {{-- End Custom Tabs --}}
+
+        <div class="box-options">
+          <div class="form-group">
+             <label>
+                  <input type="radio" name="status" value="0" class="minimal" checked>
+                  {{ trans('blog.save_darft') }}
+              </label>
+          </div>
+           <div class="form-group">
+             <label>
+                  <input type="radio" name="status" value="0" class="minimal" checked>
+                  {{ trans('blog.publish') }}
+              </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="author" class="col-sm-2">{{ trans('blog.author') }} <span style="color: green">({{ trans('items.optional') }})</span>:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="author" name="author" placeholder="" value="{{ $blog->author }}">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="keywords" class="col-sm-2">{{ trans('blog.keywords') }} <span style="color: green">({{ trans('items.optional') }})</span>:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="keywords" name="keywords" placeholder="{{ trans('blog.enter_keywords') }}" value="{{ $blog->keywords }}">
+          </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+          <label for="blog_description" class="col-sm-2">{{ trans('blog.description') }} <span style="color: green">({{ trans('items.optional') }})</span>:</label>
+          <div class="col-sm-10">
+          <textarea name="blog_description" id="blog_description" rows="10" class="form-control">{{ $blog->blog_description }}</textarea>
+          </div>
+        </div>
+
+
+    
+
+
         
         </div>
         <!-- /.box-body -->

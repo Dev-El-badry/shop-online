@@ -47,64 +47,6 @@
 @endif
 
 
-<div class="row">
-  <div class="col-xs-12">
-      <div class="box">
-        <div class="box-header">
-          <h3 class="box-title" style="color: #f00">{{ trans('slider.update_info_slide') }}</h3>
-      
-        </div>
-         @if($errors->any())
-        <div class="error-msg">
-          @foreach($errors->all() as $error)
-            <p style="color: red">{{ $error }}</p>
-          @endforeach
-        </div>
-        @endif
-        {{-- Start Form --}}
-        <form action="{{ route('slides.update', $slide->id) }}" method="POST" role="form" class="form-horizontal">
-        {{ csrf_field() }}
-        {{ method_field('PUT') }}
-
-       
-
-        <!-- /.box-header -->
-        <div class="box-body">
-
-        
-        <div class="form-group">
-          <label for="target_url" class="col-sm-2">{{ trans('slider.target_url') }} :</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="target_url" name="target_url" placeholder="" value="{{ $slide->target_url }}">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="alt_text" class="col-sm-2">{{ trans('slider.text_alt') }} :</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="alt_text" name="alt_text" placeholder="" value="{{ $slide->alt_text }}">
-          </div>
-        </div>
-     
-        
-        </div>
-        <!-- /.box-body -->
-
-        {{-- Start Box Footer --}}
-        
-        <div class="box-footer text-center">
-          <button type="submit" class="btn btn-lg btn-primary" name="submit" value="Submit">{{ trans('items.submit') }}</button>
-          <button type="submit" class="btn btn-lg btn-danger" name="submit" value="Cancel">{{ trans('items.cancel') }}</button>
-        </div>
-
-      </form>
-      {{-- End Form --}}  
-
-      </div>
-      <!-- /.box -->
-    </div>
-</div>
-
 
 
 @endsection

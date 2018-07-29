@@ -23,4 +23,12 @@ return [
 	'plz'=> 'please choose',
 	
 
+	//new
+	'messages'=> 'Direct Messages',
+	'new_message'=> 'New Messages',
+	'status'=> 'Status',
+	'view_all_msgs'=> 'View All Messages',
+	'read'=> 'read',
+	'unread'=>'unread',
+
 ];

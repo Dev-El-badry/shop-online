@@ -42,7 +42,7 @@ class BlogController extends Controller
     {
         $requests = $request->only('author', 'keywords', 'blog_description', 'blog_title', 'blog_content', 'blog_url', 'status');
         $rules = [
-            'author'=> 'required|string',
+            'author'=> 'string',
             'blog_title.*'=> 'required',
             'blog_url'=> 'required|unique:blogs',
             'blog_content.*'=> 'required',
@@ -110,7 +110,7 @@ class BlogController extends Controller
     {
         $requests = $request->only('author', 'keywords', 'blog_description', 'blog_title', 'blog_content', 'blog_url');
         $rules = [
-            'author'=> 'required|string',
+            'author'=> 'string',
             'blog_title.*'=> 'required',
             'blog_content.*'=> 'required',
             'blog_url'=> 'required|unique:blogs,blog_url,'.$id,

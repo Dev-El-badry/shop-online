@@ -72,13 +72,13 @@
           </div>
         </div>
 
-        <div class="form-group">
+{{--         <div class="form-group">
           <label for="author" class="col-sm-2">{{ trans('slider.target_url') }} :</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="author" name="target_url" placeholder="" value="{{ $slider->target_url }}">
           </div>
         </div>
-     
+      --}}
         
         </div>
         <!-- /.box-body -->

@@ -15,6 +15,11 @@
 
 <div class="row">
 	<div class="col-xs-12">
+		<div class="input-group" style="margin-bottom: 20px">
+          <input type="text" style="width: 250px" name="query" id="query" placeholder="{{ trans('items.search') }}.." class="form-control">
+        </div>
+
+
       <div class="box">
         <div class="box-header">
           <h3 class="box-title" style="color: #f00">{{ trans('items.box_title') }}</h3>
@@ -27,7 +32,7 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body table-responsive no-padding">
-			
+		
 			<!-- Start Table -->
 				
 				<table class="table">
@@ -43,7 +48,7 @@
 						</tr>
 					</thead>
 
-					<tbody>
+					<tbody id="products-list">
 
 						@forelse($items as $row)
 							<tr>
@@ -84,4 +89,34 @@
 </div>
 
 <p>{{ $items->links() }}</p>
+@endsection
+
+
+@section('scripts')
+
+<script>
+	$(document).ready(function() {
+
+		$('#query').keyup(function() {
+			var query = $(this).val();
+			
+			var obj = {
+				'_token': '{{ csrf_token() }}',
+				'query': query
+			};
+			var target_url = '{!! route('items.search') !!}';
+
+			$.post(
+				target_url,
+				obj,
+				function (data){
+					$('#products-list').html(data);
+				},
+				'html'
+			);
+		});
+
+	});
+</script>
+
 @endsection

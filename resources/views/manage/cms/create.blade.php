@@ -53,25 +53,6 @@
         <div class="box-body">
 
 
-
-         <div class="form-group">
-          <label for="page_keywords" class="col-sm-2">{{ trans('cms.keywords') }}:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="page_keywords" name="page_keywords" placeholder="{{ trans('cms.enter_keywords') }}" value="{{ old('page_keywords') }}">
-          </div>
-        </div>
-
-
-
-
-        <div class="form-group">
-          <label for="page_description" class="col-sm-2">{{ trans('cms.description') }}:</label>
-          <div class="col-sm-10">
-          <textarea name="page_description" id="page_description" rows="10" class="form-control"></textarea>
-          </div>
-        </div>
-    
-
         {{-- Start Custom Tabs --}}
 
         <div class="nav-tabs-custom">
@@ -116,6 +97,27 @@
 
 
         {{-- End Custom Tabs --}}
+
+        
+
+         <div class="form-group">
+          <label for="page_keywords" class="col-sm-2">{{ trans('cms.keywords') }} <span style="color: green">({{ trans('items.optional') }})</span>:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="page_keywords" name="page_keywords" placeholder="{{ trans('cms.enter_keywords') }}" value="{{ old('page_keywords') }}">
+          </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+          <label for="page_description" class="col-sm-2">{{ trans('cms.description') }} <span style="color: green">({{ trans('items.optional') }})</span>:</label>
+          <div class="col-sm-10">
+          <textarea name="page_description" id="page_description" rows="10" class="form-control"></textarea>
+          </div>
+        </div>
+    
+
         
         </div>
         <!-- /.box-body -->
