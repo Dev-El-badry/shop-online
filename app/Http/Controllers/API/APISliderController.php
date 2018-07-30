@@ -9,12 +9,15 @@ use App\Models\Slide;
 use Input;
 class APISliderController extends Controller
 {
-    public function get_slider($slug_url=null)
-    {
-    	$slider = Slider::where('target_url', '=', $slug_url)->with('slides')->first();
-    	$slider_count = Slider::where('target_url', '=', $slug_url)->count();
 
-    	try {
+
+    public function get_slider()
+    {
+      $slider = Slider::where('status', '=', 1)->with('slides')->first();
+      $slider_count = Slider::where('status', '=', 1)->with('slides')->count();
+
+
+      try {
     		if($slider_count>0)
 	    	{
 	    		return response()->json(['success'=>true, 'data'=> $slider->toArray()], 200);

@@ -9,7 +9,6 @@ class Store_information extends Model
     protected $table = 'store_information';
     public $timestamps = false;
 
-
     public function social_networks()
     {
     	return $this->hasMany('App\Models\SocialNetwork', 'parent_id');

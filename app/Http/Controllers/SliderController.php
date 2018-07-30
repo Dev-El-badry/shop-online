@@ -21,6 +21,13 @@ class SliderController extends Controller
         return view('manage.sliders.index')->withSliders($sliders);
     }
 
+    public function make_it_only_active($update_id)
+    {
+      Slider::where('id', '!=', $update_id)->update(['status'=> 0]);
+      Slider::where('id', $update_id)->update(['status'=> 1]);
+      return redirect()->route('sliders.index');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -44,7 +51,7 @@ class SliderController extends Controller
             $requests = $request->only('slider_title');
             $rules = [
                 'slider_title'=> 'required',
-                
+
             ];
             $validator = Validator::make($requests, $rules);
             if($validator->fails())
@@ -54,11 +61,11 @@ class SliderController extends Controller
 
             $slider = new Slider();
             $slider->slider_title = $request->slider_title;
-            
+
             $slider->save();
 
             Session::flash('item', trans('slider.alert_add'));
-           
+
             return redirect()->route('sliders.edit', $slider->id);
         }
     }
@@ -103,7 +110,7 @@ class SliderController extends Controller
             $requests = $request->only('slider_title');
             $rules = [
                 'slider_title'=> 'required',
-                
+
             ];
             $validator = Validator::make($requests, $rules);
             if($validator->fails())
@@ -117,7 +124,7 @@ class SliderController extends Controller
             $slider->save();
 
             Session::flash('item', trans('slider.alert_update'));
-           
+
             return redirect()->route('sliders.edit', $slider->id);
         } elseif($request->submit == 'Cancel')
         {
@@ -138,7 +145,7 @@ class SliderController extends Controller
             if(is_numeric($id))
             {
                 $this->delete_process_slider($id);
-                
+
                 Slider::findOrFail($id)->delete();
                 Session::flash('item', trans('slider.delete_slide_alert'));
                 return redirect()->route('sliders.index');
@@ -165,10 +172,10 @@ class SliderController extends Controller
     {
         $slide = Slide::findOrFail($slide_id);
         $slide_image = public_path('slides/').$slide->picture;
-       
-        if(file_exists($slide_image)) 
+
+        if(file_exists($slide_image))
         {
-            
+
             File::delete($slide_image);
         }
     }

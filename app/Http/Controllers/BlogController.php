@@ -22,6 +22,35 @@ class BlogController extends Controller
         return view('manage.blogs.index')->withBlogs($blogs);
     }
 
+    public function do_upload_image($image, $id) {
+
+
+            if(is_numeric($id)) {
+                $image = $image;
+                //generate thumbnaill image
+                $str = time().'_'.str_random(8);
+                $this->generate_thumbnail_image($image, $str);
+
+                $input['image'] = $str.'.'.$image->getClientOriginalExtension();
+
+                $dist = public_path('/blog_pics');
+
+                $image->move($dist, $input['image']);
+
+                $blog = Blog::findOrFail($id);
+                $blog->picture = $input['image'];
+
+                $blog->save();
+
+
+            } else {
+                echo $this->not_allowed();
+            }
+
+
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -42,13 +71,14 @@ class BlogController extends Controller
     {
         $requests = $request->only('author', 'keywords', 'blog_description', 'blog_title', 'blog_content', 'blog_url', 'status');
         $rules = [
-            'author'=> 'string',
+
             'blog_title.*'=> 'required',
+            //'file'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'blog_url'=> 'required|unique:blogs',
             'blog_content.*'=> 'required',
             'status'=> 'required|numeric',
         ];
-        
+
         if($request->submit == 'Cancel')
         {
             return redirect()->route('blogs.index');
@@ -68,11 +98,11 @@ class BlogController extends Controller
         $blog->blog_title = serialize($request->blog_title);
         $blog->blog_url = $request->blog_url;
         $blog->status = $request->status;
-        
-        $blog->save();
 
+        $blog->save();
+        $this->do_upload_image($request->file, $blog->id);
         Session::flash('item', trans('blog.alert_added'));
-        
+
        return redirect()->route('blogs.edit', $blog->id);
     }
 
@@ -110,12 +140,12 @@ class BlogController extends Controller
     {
         $requests = $request->only('author', 'keywords', 'blog_description', 'blog_title', 'blog_content', 'blog_url');
         $rules = [
-            'author'=> 'string',
+
             'blog_title.*'=> 'required',
             'blog_content.*'=> 'required',
             'blog_url'=> 'required|unique:blogs,blog_url,'.$id,
         ];
-        
+
         if($request->submit == 'Cancel')
         {
             return redirect()->route('blogs.index');
@@ -139,7 +169,7 @@ class BlogController extends Controller
         $blog->save();
 
         Session::flash('item', trans('blog.alert_updated'));
-        
+
        return redirect()->route('blogs.edit', $blog->id);
     }
 
@@ -165,12 +195,12 @@ class BlogController extends Controller
         }
     }
 
-    public function delete_config($blog_id) 
+    public function delete_config($blog_id)
     {
         return view('manage.blogs.delete_config', compact('blog_id'));
     }
 
-    private function delete_process($blog_id) 
+    private function delete_process($blog_id)
     {
         $this->delete_process_image($blog_id);
     }
@@ -207,19 +237,19 @@ class BlogController extends Controller
                 }
 
                 $image = $request->file('file');
-                //generate thumbnaill image 
+                //generate thumbnaill image
                 $str = time().'_'.str_random(8);
                 $this->generate_thumbnail_image($image, $str);
 
                 $input['image'] = $str.'.'.$image->getClientOriginalExtension();
 
                 $dist = public_path('/blog_pics');
-                
+
                 $image->move($dist, $input['image']);
-                
+
                 $blog = Blog::findOrFail($id);
                 $blog->picture = $input['image'];
-               
+
                 $blog->save();
 
                 Session::flash('item', 'Successfully Uploaded Image!');
@@ -236,8 +266,8 @@ class BlogController extends Controller
 
     }
 
-    public function delete_image(Request $request) 
-    {   
+    public function delete_image(Request $request)
+    {
         $blog_id = $request->id;
 
         if(is_numeric($blog_id))
@@ -261,7 +291,7 @@ class BlogController extends Controller
         $big_img = public_path('blog_pics/').$blog->picture;
         $small_img = public_path('blog_pics/').str_replace('.', '-thubmnail.', $blog->picture);
 
-        if(file_exists($big_img) AND file_exists($small_img)) 
+        if(file_exists($big_img) AND file_exists($small_img))
         {
             File::delete($big_img, $small_img);
         }
@@ -272,7 +302,7 @@ class BlogController extends Controller
         $categories = Category::where('for_what', 1)->get();
 
         foreach ($categories as $row) {
-            
+
             if($row->cat_parent_id == 0)
             {
                 $parent_name = unserialize($row->cat_title)[LaravelLocalization::getCurrentLocale()];
@@ -297,7 +327,7 @@ class BlogController extends Controller
         {
             //do something
             $options = $this->get_dropdown_options();
-            
+
             $cats_assign = DB::table("blog_category")->where('blog_id', $update_id)->get();
             $num_rows = DB::table("blog_category")->where('blog_id', $update_id)->count();
 
@@ -321,7 +351,7 @@ class BlogController extends Controller
             {
                 $options = array_diff($options, $cat_assigned);
             }
-            
+
             return view('manage.blogs.get_cat_assign', compact('options', 'update_id','cats_assign','num_rows'));
         }
     }
@@ -344,7 +374,7 @@ class BlogController extends Controller
 
             DB::table('blog_category')->insert(
                 [
-                'cat_id'=> $request->cat_id, 
+                'cat_id'=> $request->cat_id,
                 'blog_id'=>$update_id
                 ]
                 );

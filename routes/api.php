@@ -57,7 +57,7 @@ Route::group(['middleware'=> ['jwt.auth']], function() {
 	Route::get('favourite/delete_from_favourite/{item_id}/{user_id}', 'API\FavouriteController@delete_from_favourite');
 
 	//sliders
-	Route::get('sliders/get_slider/{slug_url?}', 'API\APISliderController@get_slider');
+	Route::get('sliders/get_slider', 'API\APISliderController@get_slider');
 
 	//CMS
 	Route::get('cms/get_webpages', 'API\APICMSController@get_webpages');
@@ -75,5 +75,8 @@ Route::group(['middleware'=> ['jwt.auth']], function() {
 
   //search
   Route::post('items/search', 'API\APISearchController@search');
+
+  //Store info
+  Route::get('store_info/get_all_info', 'API\APIStoreInfoController@get_all_info');
 
 });

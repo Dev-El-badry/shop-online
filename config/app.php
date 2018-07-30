@@ -182,6 +182,7 @@ return [
         'Collective\Html\HtmlServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
+        Spatie\JsonApiPaginate\JsonApiPaginateServiceProvider::class,
     ],
 
     /*

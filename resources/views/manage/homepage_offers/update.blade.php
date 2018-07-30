@@ -27,6 +27,7 @@
 				<label for="new_offer" class="col-sm-4">{{ trans('blocks.new_offer') }}</label>
 				<div class="col-md-8">
 					<input type="text" class="form-control" id="new_offer" name="item_id" dir="auto">
+					<div id="list-products"></div>
 				</div>
 			</div>
 		
@@ -146,5 +147,7 @@
 		);
 
 	});
+
+
 </script>
 @endsection

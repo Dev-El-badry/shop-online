@@ -24,6 +24,12 @@
     display: inline-block;
     margin-left: 50px;
 }
+
+input[type="file"]
+{
+  text-align: center !important;
+  margin: 10px auto;
+}
 </style>
 
 @endsection
@@ -48,7 +54,7 @@
       <div class="box">
         <div class="box-header">
           <h3 class="box-title" style="color: #f00">{{ trans('blog.add_blog') }}</h3>
-      
+
         </div>
          @if($errors->any())
         <div class="error-msg">
@@ -58,10 +64,10 @@
         </div>
         @endif
         {{-- Start Form --}}
-        <form action="{{ route('blogs.store') }}" method="POST" role="form" class="form-horizontal">
+        <form action="{{ route('blogs.store') }}" method="POST" role="form" class="form-horizontal" enctype="multipart/form-data">
         {{ csrf_field() }}
 
-       
+
 
         <!-- /.box-header -->
         <div class="box-body">
@@ -70,7 +76,7 @@
 
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              
+
               @foreach(LaravelLocalization::getSupportedLocales() as $key=> $value)
               <li><a href="#{{ $key }}" data-toggle="tab" aria-expanded="true">{{ $value['native'] }}</a></li>
               @endforeach
@@ -78,7 +84,7 @@
             <div class="tab-content">
 
               @foreach(LaravelLocalization::getSupportedLocales() as $key=> $value)
-              
+
               <div class="tab-pane" id="{{ $key }}">
 
                 <div class="form-group">
@@ -86,18 +92,18 @@
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="title_{{ $key }}" name="blog_title[{{ $key }}]"  dir="auto">
                   </div>
-                </div>  
-                      
+                </div>
+
                 <div class="form-group">
                   <label for="content_{{ $key }}" class="col-sm-2">{{ trans('blog.content') }}  :</label>
                   <div class="col-sm-10">
                    <textarea id="editor_{{ $key }}" id="content_{{ $key }}" name="blog_content[{{ $key }}]" rows="10" cols="80" dir="auto" >
-                                           
+
                     </textarea>
                   </div>
                 </div>
 
-            
+
               </div>
 
               @endforeach
@@ -108,6 +114,11 @@
 
 
         {{-- End Custom Tabs --}}
+        <!-- <div class="box-options">
+        <p style="color: green; ">{{ trans('items.upload_image_title') }}</p>
+
+        {!! Form::file('file', $attributes = array()) !!}
+      </div> -->
 
          <div class="box-options">
           <div class="form-group">
@@ -148,23 +159,23 @@
           </div>
         </div>
 
-       
-    
 
 
-        
+
+
+
         </div>
         <!-- /.box-body -->
 
         {{-- Start Box Footer --}}
-        
+
         <div class="box-footer">
           <button type="submit" class="btn btn-lg btn-primary" name="submit" value="Submit">{{ trans('items.submit') }}</button>
           <button type="submit" class="btn btn-lg btn-danger" name="submit" value="Cancel">{{ trans('items.cancel') }}</button>
         </div>
 
       </form>
-      {{-- End Form --}}  
+      {{-- End Form --}}
 
       </div>
       <!-- /.box -->

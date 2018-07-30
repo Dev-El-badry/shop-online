@@ -93,37 +93,6 @@ class ItemController extends Controller
         
     }
 
-    // public function search(Request $request)
-    // {
-    //     $query = Input::post('query');
-       
-    //     if(!empty($query))
-    //     {
-    //         $slug_lang = LaravelLocalization::getCurrentLocale();
-    //         if($slug_lang == 'ar')
-    //         {
-    //             $items = DB::select("
-    //             SELECT 
-    //             SUBSTRING_INDEX(SUBSTRING_INDEX(item_title,';',3),':',-1) AS fieldname2,
-    //             SUBSTRING_INDEX(SUBSTRING_INDEX(item_title,';',4),':',-1) AS fieldvalue2
-    //             from items
-    //             where fieldvalue2 LIKE '%".$query."%'
-    //             ");
-    //         } elseif($slug_lang == 'en')
-    //         {
-    //             $items = DB::select("
-    //             SELECT 
-    //             SUBSTRING_INDEX(SUBSTRING_INDEX(item_title,';',1),':',-1) AS fieldname1,
-    //             SUBSTRING_INDEX(SUBSTRING_INDEX(item_title,';',2),':',-1) AS fieldvalue1,
-    //             from items
-    //             where fieldvalue1 LIKE '%".$query."%'
-    //             ");
-    //         }
-
-
-    //         dd($items);
-    //     }
-    // }
 
     ////////////////////////////////Upload File
 

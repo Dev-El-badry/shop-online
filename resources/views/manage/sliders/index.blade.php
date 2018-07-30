@@ -32,16 +32,16 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body table-responsive no-padding">
-			
+
 			<!-- Start Table -->
-				
+
 				<table class="table">
 					<thead>
 						<tr>
 						<th>{{ trans('blog.id') }}</th>
 							<th>{{ trans('slider.slider_title') }}</th>
-							
-							
+
+
 							<th></th>
 						</tr>
 					</thead>
@@ -54,13 +54,22 @@
 								<td>
 									 {{ $row->slider_title }}
 								</td>
-								
-								
-								
-								
-								
+
+
+
+
+
 								<td class="pull-right">
-							
+
+									<?php
+
+										if($row->status == 1) {
+											echo '<a href="'.route('sliders.make_it_only_active', $row->id).'" class="btn btn-danger" onClick="preventDefault();">'.trans('items.inactive') .'</a>';
+										} else {
+											echo '<a href="'.route('sliders.make_it_only_active', $row->id).'" class="btn btn-success">'.trans('items.active') .'</a>';
+										}
+									?>
+
 									<a href="{{ route('sliders.edit', $row->id) }}" class="btn btn-default">
 									<i class="fa fa-edit fa-fw"></i> &nbsp;
 									{{ trans('items.edit') }}</a>

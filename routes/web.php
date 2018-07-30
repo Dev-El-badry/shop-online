@@ -38,7 +38,7 @@ Route::prefix(LaravelLocalization::setLocale())->group(function() {
 		Route::get('/', 'DashboardController@index');
 		Route::get('/dashboard', 'DashboardController@index')->name('admin.dashboard');
 
-		
+
 		//Users
 		Route::prefix('users')->group(function() {
 
@@ -53,7 +53,7 @@ Route::prefix(LaravelLocalization::setLocale())->group(function() {
 		//items
 		Route::resource('/items', 'ItemController', ['except'=> 'show']);
 		Route::prefix('items')->group(function() {
-			
+
 			//search items
 			Route::post('/search', 'ItemController@search')->name('items.search');
 
@@ -135,6 +135,7 @@ Route::prefix(LaravelLocalization::setLocale())->group(function() {
 		//Sliders
 		Route::resource('sliders', 'SliderController');
 		Route::get('sliders/delete_config/{slider_id}', 'SliderController@delete_config')->name('sliders.delete_config');
+		Route::get('sliders/make_it_only_active/{slider_id}', 'SliderController@make_it_only_active')->name('sliders.make_it_only_active');
 
 		//Slides
 		Route::prefix('slides')->group(function() {
@@ -195,6 +196,6 @@ Route::prefix(LaravelLocalization::setLocale())->group(function() {
 
 
 	});
-	
-	
+
+
 });
